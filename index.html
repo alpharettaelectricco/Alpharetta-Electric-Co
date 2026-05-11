@@ -3,22 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alpharetta Electric Co</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
-        }
-        img {
-            max-width: 300px;
-            height: auto;
-        }
-    </style>
+    <title>Alpharetta Electric Co. | Pro Step-Up Guitars</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Welcome to Alpharetta Electric Co</h1>
-    <img src="logo.png" alt="Alpharetta Electric Co Logo">
-    <p>Your trusted partner for electrical services in Alpharetta.</p>
+
+    <header>
+        <img src="logo.png" alt="Alpharetta Electric Co. Logo" class="main-logo">
+        <nav>
+            <a href="#shop">Shop</a>
+            <a href="#workshop">Workshop</a>
+            <a href="#teaching">Teaching</a>
+        </nav>
+    </header>
+
+    <section id="hero">
+        <h1>Everyday guitars. <br>Professional playability.</h1>
+        <p>Hand-refined "Step-Up" instruments from Alpharetta, GA.</p>
+    </section>
+
+    <main id="shop">
+        <h2 class="section-title">Current Listings</h2>
+        
+        <article class="guitar-card">
+            <div class="tag-header">
+                <span class="tag-hole"></span>
+                <h3>Firefly S-Style</h3>
+                <p class="tier">Beginner Tier</p>
+            </div>
+            
+            <div class="card-content">
+                <p class="price">$240</p>
+                <hr>
+                <div class="specs">
+                    <p><strong>Relief:</strong> .006 in at 7th Fret</p>
+                    <p><strong>Action:</strong> 3/32" High E • 5/32" Low E</p>
+                    <p><strong>Strings:</strong> Stringjoy 9.5–44</p>
+                    <p><strong>Tech:</strong> Jeff</p>
+                </div>
+                <hr>
+                <p class="description">Full fret level and crown. Nut slots shaped and polished for tuning stability. Plays like a dream.</p>
+                
+                <a href="mailto:jeff@alpharettaelectric.co?subject=Inquiry: Firefly S-Style" class="buy-btn">Message to Buy</a>
+            </div>
+        </article>
+    </main>
+
+    <section id="teaching">
+        <h2 class="section-title">Guitar Lessons</h2>
+        <p>Learn on an instrument that works for you. Private lessons available in the Alpharetta studio.</p>
+        <a href="mailto:jeff@alpharettaelectric.co?subject=Lesson Inquiry" class="secondary-btn">Inquire About Lessons</a>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Alpharetta Electric Co. | Georgia</p>
+    </footer>
+
 </body>
 </html>
