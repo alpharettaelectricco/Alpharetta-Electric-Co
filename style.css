@@ -137,6 +137,11 @@ body {
 
 .card-logo-badge {
     max-width: 130px;
+    height: auto;
+    /* This 'darken' mode hides the tan background of your logo file 
+       and only shows the dark ink on the card's background */
+    mix-blend-mode: multiply; 
+    filter: contrast(1.1);
 }
 
 .tag-header {
