@@ -321,7 +321,7 @@ body {
 /* Spaces out the top logo area */
 .top-brand {
     padding: 15px 0 25px 0;
-    background: transparent;
+    background: transparent !important;
 }
 
 /* Adjusts the image slider height for the new layout */
