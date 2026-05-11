@@ -1,7 +1,8 @@
 :root {
     --bg-dark: #1a1a1b;
     --card-bg: #242526;
-    --accent: #d9bc96; /* That Kraft Paper Tan */
+    --accent: #d9bc96;
+    /* That Kraft Paper Tan */
     --text-main: #e2e2d5;
     --text-dim: #9da1a5;
 }
@@ -29,7 +30,10 @@ body {
     z-index: 100;
 }
 
-.nav-logo { height: 50px; }
+.nav-logo {
+    height: 50px;
+}
+
 .nav-links a {
     color: var(--text-main);
     text-decoration: none;
@@ -39,7 +43,10 @@ body {
     text-transform: uppercase;
     transition: 0.3s;
 }
-.nav-links a:hover { color: var(--accent); }
+
+.nav-links a:hover {
+    color: var(--accent);
+}
 
 /* Hero Section */
 .hero {
@@ -48,7 +55,7 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
-    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('bench-background.jpg');
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('bench-background.jpg');
     background-size: cover;
     background-position: center;
 }
@@ -60,7 +67,10 @@ body {
 }
 
 /* Grid System */
-.container { padding: 80px 10%; }
+.container {
+    padding: 80px 10%;
+}
+
 .guitar-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -75,7 +85,11 @@ body {
     transition: transform 0.4s ease;
     border: 1px solid #333;
 }
-.guitar-card:hover { transform: translateY(-10px); border-color: var(--accent); }
+
+.guitar-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--accent);
+}
 
 .card-image-placeholder {
     height: 250px;
@@ -95,7 +109,9 @@ body {
     border-radius: 20px;
 }
 
-.tag-content { padding: 25px; }
+.tag-content {
+    padding: 25px;
+}
 
 .tag-header {
     display: flex;
@@ -104,25 +120,49 @@ body {
     margin-bottom: 15px;
 }
 
-.price { color: var(--accent); font-size: 1.2rem; font-weight: bold; }
+.price {
+    color: var(--accent);
+    font-size: 1.2rem;
+    font-weight: bold;
+}
 
+/* 1. This styles the logo area inside the tag */
+.tag-brand {
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(217, 188, 150, 0.1);
+    padding-bottom: 15px;
+}
+
+.card-logo-badge {
+    max-width: 140px;
+    height: auto;
+}
+
+/* 2. This creates the neat spacing between the two spec rows */
+.spec-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+/* 3. This is the updated, sleek version of the spec row itself */
 .spec-row {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(217, 188, 150, 0.15);
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-size: 0.8rem;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.03); /* Subtle transparency */
-    padding: 12px 15px;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    margin-bottom: 15px;
-    border: 1px solid rgba(217, 188, 150, 0.2); /* Faint accent-colored border */
-    color: var(--text-dim); /* Labels are slightly dimmed */
+    color: #a0a0a0;
+    /* Dimmed labels */
 }
 
 .spec-row strong {
-    color: var(--accent); /* Measurements pop in Kraft Tan */
-    font-weight: 700;
-    letter-spacing: 0.5px;
+    color: #d9bc96;
+    /* The measurements pop in Kraft Tan */
 }
 
 .btn-inquire {
@@ -136,10 +176,18 @@ body {
     border-radius: 6px;
     transition: 0.3s;
 }
-.btn-inquire:hover { background: var(--accent); color: #000; }
+
+.btn-inquire:hover {
+    background: var(--accent);
+    color: #000;
+}
 
 /* Teaching Section */
-.dark-section { background: #0a0a0a; border-top: 1px solid #222; }
+.dark-section {
+    background: #0a0a0a;
+    border-top: 1px solid #222;
+}
+
 .section-label {
     text-transform: uppercase;
     letter-spacing: 3px;
