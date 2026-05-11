@@ -50,7 +50,8 @@ body {
 
 /* Hero Section */
 .hero {
-    background-color: var(--bg-dark); /* Using our soft charcoal */
+    background-color: var(--bg-dark);
+    /* Using our soft charcoal */
     color: var(--text-main);
     padding: 100px 20px;
     text-align: center;
@@ -113,27 +114,36 @@ body {
 .tag-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
+    align-items: baseline;
+    margin-bottom: 5px;
+}
+
+.tag-header h3 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: var(--text-main);
 }
 
 .price {
     color: var(--accent);
-    font-size: 1.2rem;
-    font-weight: bold;
+    font-size: 1.3rem;
+    font-weight: 700;
 }
 
 /* 1. This styles the logo area inside the tag */
 .tag-brand {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    padding-bottom: 20px;
     border-bottom: 1px solid rgba(217, 188, 150, 0.1);
-    padding-bottom: 15px;
 }
 
 .card-logo-badge {
-    max-width: 140px;
+    max-width: 160px;
+    /* Adjust size as needed */
     height: auto;
+    display: block;
+    margin: 0 auto;
 }
 
 /* 2. This creates the neat spacing between the two spec rows */
@@ -141,25 +151,23 @@ body {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    margin-bottom: 20px;
+    margin: 20px 0;
 }
 
 /* 3. This is the updated, sleek version of the spec row itself */
 .spec-row {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(217, 188, 150, 0.15);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(217, 188, 150, 0.1);
     padding: 10px 15px;
     border-radius: 6px;
-    font-size: 0.8rem;
     display: flex;
     justify-content: space-between;
-    color: #a0a0a0;
-    /* Dimmed labels */
+    font-size: 0.8rem;
+    color: var(--text-dim);
 }
 
 .spec-row strong {
-    color: #d9bc96;
-    /* The measurements pop in Kraft Tan */
+    color: var(--accent);
 }
 
 .btn-inquire {
@@ -204,13 +212,15 @@ footer {
 
 /* Global Link Fix */
 a {
-    color: var(--accent); /* Everything defaults to your brand Tan */
+    color: var(--accent);
+    /* Everything defaults to your brand Tan */
     text-decoration: none;
     transition: 0.3s;
 }
 
 a:hover {
-    filter: brightness(1.2); /* Subtle glow on hover */
+    filter: brightness(1.2);
+    /* Subtle glow on hover */
 }
 
 /* Style the 'secondary' button in the Teaching section */
@@ -228,5 +238,14 @@ a:hover {
 
 .cta-secondary:hover {
     background: var(--accent);
-    color: var(--bg-dark); /* Flips colors for a high-end feel */
+    color: var(--bg-dark);
+    /* Flips colors for a high-end feel */
+}
+
+.tier-label {
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    margin-bottom: 20px;
 }
