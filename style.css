@@ -201,3 +201,32 @@ footer {
     font-size: 0.8rem;
     color: var(--text-dim);
 }
+
+/* Global Link Fix */
+a {
+    color: var(--accent); /* Everything defaults to your brand Tan */
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+a:hover {
+    filter: brightness(1.2); /* Subtle glow on hover */
+}
+
+/* Style the 'secondary' button in the Teaching section */
+.cta-secondary {
+    display: inline-block;
+    border: 1px solid var(--accent);
+    padding: 12px 30px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+    margin-top: 20px;
+}
+
+.cta-secondary:hover {
+    background: var(--accent);
+    color: var(--bg-dark); /* Flips colors for a high-end feel */
+}
