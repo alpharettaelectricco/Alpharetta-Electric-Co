@@ -8,10 +8,10 @@
 
 body {
     margin: 0;
-    background-color: var(--bg-dark);
-    color: var(--text-main);
+    background-color: #1a1a1b;
+    color: #e2e2d5;
+    /* This fixes the main header text */
     font-family: 'Inter', sans-serif;
-    line-height: 1.6;
 }
 
 /* Navbar */
@@ -46,8 +46,24 @@ body {
 
 .hero h1 {
     font-family: 'Playfair Display', serif;
-    font-size: 3rem;
-    margin: 0;
+    font-size: 3.5rem;
+    color: #e2e2d5;
+    /* Absolute white/cream */
+    margin-bottom: 10px;
+}
+
+.hero p {
+    color: #b89b74;
+    /* The gold/tan accent color for the sub-headline */
+    font-size: 1.2rem;
+}
+
+/* 3. Keep the "Ink" dark ONLY inside the tag */
+.guitar-card {
+    background-color: #d9bc96;
+    color: #1a1a1b;
+    /* This keeps the tag text dark while the site stays light */
+    /* ... existing styles ... */
 }
 
 /* Container & Grid */
