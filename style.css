@@ -171,20 +171,40 @@ body {
     margin-bottom: 15px;
 }
 
-.spec-group {
-    margin-bottom: 15px;
+/* The new vertical checklist layout */
+.checklist-group {
+    margin: 15px 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.spec-row {
+.check-item {
     display: flex;
     justify-content: space-between;
-    font-size: 0.75rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    padding: 5px 0;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    font-size: 0.85rem;
+    color: #333;
 }
 
-.spec-row strong {
+/* Indent sub-items (like nut slot details) to show hierarchy */
+.sub-item {
+    padding-left: 15px;
+    font-style: italic;
+    font-size: 0.8rem;
+}
+
+.check-item strong {
     color: #000;
+    font-weight: 700;
+}
+
+/* Let the description breathe a bit more */
+.description {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin: 20px 0;
+    font-style: italic;
+    opacity: 0.8;
 }
 
 .description {
