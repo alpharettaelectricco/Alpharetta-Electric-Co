@@ -35,7 +35,7 @@
                     <img src="logo-clean.png" alt="Alpharetta Electric Co." class="card-logo-badge">
                 </div>
 
-                <div class="card-image-area">
+                <<div class="card-image-area">
                     <button class="slider-arrow prev" onclick="moveSlider(-1)">&#10094;</button>
                     <button class="slider-arrow next" onclick="moveSlider(1)">&#10095;</button>
 
@@ -52,34 +52,34 @@
                         <span class="dot"></span>
                         <span class="dot"></span>
                     </div>
+        </div>
+
+        <div class="tag-body">
+            <div class="tag-header">
+                <h3>Firefly S-Style</h3>
+                <span class="price">$240</span>
+            </div>
+
+            <p class="tier-label">Full Step-Up Refinement</p>
+
+            <div class="checklist-group">
+                <div class="check-item"><span>Neck Relief:</span> <strong>.006"</strong></div>
+                <div class="check-item"><span>String Height (T):</span> <strong>3/64"</strong></div>
+                <div class="check-item"><span>String Height (B):</span> <strong>5/64"</strong></div>
+                <div class="check-item"><span>Tuning Stability:</span> <strong>Inspected</strong></div>
+                <div class="check-item"><span>Intonation:</span> <strong>Set</strong></div>
+                <div class="check-item"><span>Strings:</span> <strong>Stringjoy Soft-Touch 9.5 -44 </strong>
                 </div>
+                <div class="check-item"><span>Frets:</span> <strong>Leveled (8,10, 15) & Polish</strong></div>
+            </div>
 
-                <div class="tag-body">
-                    <div class="tag-header">
-                        <h3>Firefly S-Style</h3>
-                        <span class="price">$240</span>
-                    </div>
+            <p class="description">Eliminated factory "grittiness" for a professional feel. Plays like a dream.
+            </p>
 
-                    <p class="tier-label">Full Step-Up Refinement</p>
-
-                    <div class="checklist-group">
-                        <div class="check-item"><span>Neck Relief:</span> <strong>.006"</strong></div>
-                        <div class="check-item"><span>String Height (T):</span> <strong>3/64"</strong></div>
-                        <div class="check-item"><span>String Height (B):</span> <strong>5/64"</strong></div>
-                        <div class="check-item"><span>Tuning Stability:</span> <strong>Inspected</strong></div>
-                        <div class="check-item"><span>Intonation:</span> <strong>Set</strong></div>
-                        <div class="check-item"><span>Strings:</span> <strong>Stringjoy Soft-Touch 9.5 -44 </strong>
-                        </div>
-                        <div class="check-item"><span>Frets:</span> <strong>Leveled (8,10, 15) & Polish</strong></div>
-                    </div>
-
-                    <p class="description">Eliminated factory "grittiness" for a professional feel. Plays like a dream.
-                    </p>
-
-                    <a href="mailto:jeff@alpharettaelectric.co?subject=Firefly Inquiry" class="btn-inquire">Inquire to
-                        Buy</a>
-                </div>
-            </article>
+            <a href="mailto:jeff@alpharettaelectric.co?subject=Firefly Inquiry" class="btn-inquire">Inquire to
+                Buy</a>
+        </div>
+        </article>
 
         </div>
     </section>
@@ -94,19 +94,19 @@
     </section>
 
     <script>
-        const slider = document.getElementById('guitarSlider');
-
         function moveSlider(direction) {
-            const scrollAmount = slider.clientWidth;
+            const slider = document.querySelector('.image-slider');
+            const scrollAmount = slider.offsetWidth; // Gets the width of one photo
             slider.scrollBy({
                 left: direction * scrollAmount,
                 behavior: 'smooth'
             });
         }
 
-        // Optional: Update dots based on scroll position
-        slider.addEventListener('scroll', () => {
-            const index = Math.round(slider.scrollLeft / slider.clientWidth);
+        // This part handles the dots automatically
+        const sliderEl = document.querySelector('.image-slider');
+        sliderEl.addEventListener('scroll', () => {
+            const index = Math.round(sliderEl.scrollLeft / sliderEl.offsetWidth);
             const dots = document.querySelectorAll('.dot');
             dots.forEach((dot, i) => {
                 dot.classList.toggle('active', i === index);
