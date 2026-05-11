@@ -140,7 +140,7 @@ body {
     height: auto;
     /* This 'darken' mode hides the tan background of your logo file 
        and only shows the dark ink on the card's background */
-    mix-blend-mode: multiply; 
+    mix-blend-mode: multiply;
     filter: contrast(1.1);
 }
 
@@ -233,17 +233,21 @@ body {
 
 /* The Slider Container */
 .card-image-area {
-    height: 300px; /* Made it taller to show more of the guitar */
+    height: 300px;
+    /* Made it taller to show more of the guitar */
     background: #121212;
-    overflow-x: auto; /* Enables horizontal scrolling */
+    overflow-x: auto;
+    /* Enables horizontal scrolling */
     display: flex;
-    scroll-snap-type: x mandatory; /* Makes images "snap" into place */
+    scroll-snap-type: x mandatory;
+    /* Makes images "snap" into place */
     scroll-behavior: smooth;
 }
 
 /* Individual Photos */
 .guitar-photo {
-    min-width: 100%; /* Each photo takes up the full width of the tag */
+    min-width: 100%;
+    /* Each photo takes up the full width of the tag */
     height: 100%;
     object-fit: cover;
     scroll-snap-align: start;
@@ -254,18 +258,23 @@ body {
 .card-image-area::-webkit-scrollbar {
     display: none;
 }
+
 .card-image-area {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
 }
 
 /* Ensure the area allows for horizontal scrolling */
 .card-image-area {
     height: 300px;
     background: #121212;
-    overflow-x: auto; /* Enables the swipe/scroll */
+    overflow-x: auto;
+    /* Enables the swipe/scroll */
     display: flex;
-    scroll-snap-type: x mandatory; /* The "snap" effect */
+    scroll-snap-type: x mandatory;
+    /* The "snap" effect */
     position: relative;
 }
 
@@ -276,10 +285,12 @@ body {
 }
 
 .guitar-photo {
-    min-width: 100%; /* Each photo fills the tag width */
+    min-width: 100%;
+    /* Each photo fills the tag width */
     height: 100%;
     object-fit: cover;
-    scroll-snap-align: start; /* Snaps to the start of the image */
+    scroll-snap-align: start;
+    /* Snaps to the start of the image */
     flex-shrink: 0;
 }
 
@@ -288,10 +299,34 @@ body {
     position: absolute;
     bottom: 10px;
     right: 10px;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
     color: #fff;
     padding: 4px 8px;
     font-size: 0.6rem;
     border-radius: 4px;
-    pointer-events: none; /* User clicks "through" this to the image */
+    pointer-events: none;
+    /* User clicks "through" this to the image */
+}
+
+/* Makes the logo larger and hides its brown background */
+.card-logo-badge {
+    max-width: 180px !important;
+    height: auto;
+    mix-blend-mode: multiply !important;
+    filter: contrast(1.1) brightness(0.9);
+    display: block;
+    margin: 0 auto;
+}
+
+/* Spaces out the top logo area */
+.top-brand {
+    padding: 15px 0 25px 0;
+    background: transparent;
+}
+
+/* Adjusts the image slider height for the new layout */
+.card-image-area {
+    height: 320px !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
