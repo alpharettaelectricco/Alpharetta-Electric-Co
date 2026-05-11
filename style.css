@@ -55,10 +55,25 @@ body {
 }
 
 /* --- 3. THE HANGTAG CARD --- */
+/* --- 3. THE HANGTAG CARD --- */
 .container {
     padding: 60px 10%;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    /* This stacks the header on top of the card */
+    align-items: center;
+    /* This centers the card and header */
+}
+
+/* Add this to style the 'Available Now' text properly */
+.section-label {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 1.5rem;
+    color: #e2e2d5;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 .guitar-card {
@@ -90,8 +105,7 @@ body {
 /* --- 4. LOGO AREA --- */
 .tag-brand {
     text-align: center;
-    padding: 40px 0 20px 0;
-    /* Space for eyelet */
+    padding: 60px 0 20px 0; /* Increased top padding from 40px to 60px */
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
@@ -281,11 +295,23 @@ body {
 }
 
 /* --- 8. FOOTER / TEACHING SECTION --- */
+
 .dark-section {
-    text-align: center;
     background: #121212;
     padding: 80px 20px;
     border-top: 1px solid #333;
+    display: flex;
+    flex-direction: column; /* Stacks Title, Text, and Button */
+    align-items: center;    /* Centers everything */
+    text-align: center;
+    gap: 15px;              /* Adds automatic breathing room between items */
+}
+
+/* Ensure the paragraph text doesn't stretch too wide on big screens */
+.dark-section p {
+    max-width: 600px;
+    line-height: 1.6;
+    margin: 0 auto;
 }
 
 .cta-secondary {
