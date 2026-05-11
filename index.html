@@ -36,13 +36,22 @@
                 </div>
 
                 <div class="card-image-area">
-                    <div class="image-slider">
-                        <img src="firefly-hero.jpeg" alt="Firefly S-Style Front" class="guitar-photo">
-                        <img src="firefly-lower-body.jpeg" alt="Lower Body Detail" class="guitar-photo">
-                        <img src="firefly-action.jpeg" alt="Action View" class="guitar-photo">
-                        <img src="firefly-headstock.jpeg" alt="Headstock" class="guitar-photo">
+                    <button class="slider-arrow prev" onclick="moveSlider(-1)">&#10094;</button>
+                    <button class="slider-arrow next" onclick="moveSlider(1)">&#10095;</button>
+
+                    <div class="image-slider" id="guitarSlider">
+                        <img src="firefly-hero.jpeg" class="guitar-photo" alt="Hero">
+                        <img src="firefly-lower-body.jpeg" class="guitar-photo" alt="Body">
+                        <img src="firefly-action.jpeg" class="guitar-photo" alt="Action">
+                        <img src="firefly-headstock.jpeg" class="guitar-photo" alt="Headstock">
                     </div>
-                    <span class="status-badge">Available</span>
+
+                    <div class="slider-dots">
+                        <span class="dot active"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
                 </div>
 
                 <div class="tag-body">
@@ -59,7 +68,8 @@
                         <div class="check-item"><span>String Height (B):</span> <strong>5/64"</strong></div>
                         <div class="check-item"><span>Tuning Stability:</span> <strong>Inspected</strong></div>
                         <div class="check-item"><span>Intonation:</span> <strong>Set</strong></div>
-                        <div class="check-item"><span>Strings:</span> <strong>Stringjoy Soft-Touch 9.5 -44 </strong></div>
+                        <div class="check-item"><span>Strings:</span> <strong>Stringjoy Soft-Touch 9.5 -44 </strong>
+                        </div>
                         <div class="check-item"><span>Frets:</span> <strong>Leveled (8,10, 15) & Polish</strong></div>
                     </div>
 
@@ -82,6 +92,27 @@
             <a href="mailto:jeff@alpharettaelectric.co?subject=Lessons" class="cta-secondary">Book a Lesson</a>
         </div>
     </section>
+
+    <script>
+        const slider = document.getElementById('guitarSlider');
+
+        function moveSlider(direction) {
+            const scrollAmount = slider.clientWidth;
+            slider.scrollBy({
+                left: direction * scrollAmount,
+                behavior: 'smooth'
+            });
+        }
+
+        // Optional: Update dots based on scroll position
+        slider.addEventListener('scroll', () => {
+            const index = Math.round(slider.scrollLeft / slider.clientWidth);
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        });
+    </script>
 
 </body>
 
