@@ -1,12 +1,10 @@
 :root {
     --bg-dark: #1a1a1b;
-    --card-tan: #d9bc96;
-    /* Kraft Paper */
+    /* This matches the darker, 'recycled' tan in your logo file */
+    --card-tan: #b89b74;
     --ink-dark: #1a1a1b;
-    /* Stamped Ink color */
-    --text-main: #e2e2d5;
-    --accent: #d9bc96;
 }
+
 
 body {
     margin: 0;
@@ -73,7 +71,8 @@ body {
 
 /* THE HANGTAG CARD */
 .guitar-card {
-    background-color: var(--card-tan);
+    background-color: #b89b74 !important;
+    /* Force the match */
     color: var(--ink-dark);
     width: 350px;
     border-radius: 12px;
@@ -136,20 +135,12 @@ body {
 }
 
 .card-logo-badge {
-    max-width: 180px !important;
+    max-width: 200px;
     height: auto;
     display: block;
     margin: 0 auto;
-
-    /* KEY FIXES BELOW */
-    mix-blend-mode: multiply !important;
-    /* Hides the brown background */
-    filter: contrast(1.2) brightness(0.9);
-    /* Makes the black ink pop */
-
-    /* Ensure the container isn't blocking the effect */
-    position: relative;
-    z-index: 2;
+    mix-blend-mode: normal !important;
+    filter: none !important;
 }
 
 .tag-header {
