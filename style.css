@@ -50,14 +50,11 @@ body {
 
 /* Hero Section */
 .hero {
-    height: 70vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background-color: var(--bg-dark); /* Using our soft charcoal */
+    color: var(--text-main);
+    padding: 100px 20px;
     text-align: center;
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('bench-background.jpg');
-    background-size: cover;
-    background-position: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .hero h1 {
@@ -184,8 +181,10 @@ body {
 
 /* Teaching Section */
 .dark-section {
-    background: #0a0a0a;
-    border-top: 1px solid #222;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 80px 10%;
 }
 
 .section-label {
