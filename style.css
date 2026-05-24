@@ -36,14 +36,15 @@ body {
     letter-spacing: 1px;
 }
 
+/* --- 3. HERO SECTION --- */
 .hero {
     padding: 100px 20px;
     text-align: center;
-    background: #151516;
-    /* Dark background to make the tan accents pop */
+    background: #151516; 
     display: flex;
     flex-direction: column;
     align-items: center;
+    border-bottom: 1px solid #333;
 }
 
 .hero-brand {
@@ -52,72 +53,77 @@ body {
 
 .hero-logo {
     max-width: 250px;
-    /* Large enough to be the anchor, not so big it's a billboard */
     height: auto;
     filter: brightness(1.1) contrast(1.1);
-    /* Keeps the logo sharp on the dark background */
 }
 
 .hero h1 {
     font-family: 'Playfair Display', serif;
     font-size: 3rem;
     color: #e2e2d5;
+    margin-top: 0;
     margin-bottom: 30px;
     letter-spacing: -1px;
 }
 
 .hero-content {
-    max-width: 700px;
-    /* Keeps the lines from getting too long to read comfortably */
+    max-width: 750px;
     margin: 0 auto;
-}
-
-.hero-mission {
-    color: var(--accent);
-    /* That nice tan/gold color */
-    font-size: 1.4rem;
-    line-height: 1.5;
-    margin-bottom: 25px;
 }
 
 .hero-details {
     color: #a0a0a0;
-    /* Subtle grey for the technical explanation */
     font-size: 1rem;
     line-height: 1.8;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
 }
 
 .hero-tagline {
     color: #e2e2d5;
     font-size: 1.1rem;
     font-style: italic;
-    border-top: 1px solid rgba(184, 155, 116, 0.3);
-    padding-top: 20px;
+    border-top: 1px solid rgba(184, 155, 116, 0.2);
+    padding-top: 25px;
 }
 
-/* --- 3. THE HANGTAG CARD --- */
-/* --- 3. THE HANGTAG CARD --- */
+/* --- 4. THE SHOP CONTAINER --- */
 .container {
     padding: 60px 10%;
     display: flex;
     flex-direction: column;
-    /* This stacks the header on top of the card */
     align-items: center;
-    /* This centers the card and header */
 }
 
-/* Add this to style the 'Available Now' text properly */
 .section-label {
     width: 100%;
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     font-size: 1.5rem;
     color: #e2e2d5;
     text-transform: uppercase;
     letter-spacing: 2px;
 }
 
+.shop-preface {
+    max-width: 600px;
+    margin: 0 auto 50px auto;
+    text-align: center;
+    line-height: 1.6;
+}
+
+.shop-preface p {
+    color: var(--accent);
+    font-size: 1.2rem;
+    font-style: italic;
+    opacity: 0.9;
+}
+
+.guitar-grid {
+    display: flex;
+    justify-content: center;
+}
+
+/* --- 5. THE HANGTAG CARD --- */
 .guitar-card {
     background-color: var(--card-tan) !important;
     color: var(--ink-dark);
@@ -129,7 +135,7 @@ body {
     margin-bottom: 50px;
 }
 
-/* The Eyelet Hole */
+/* Eyelet Hole */
 .guitar-card::before {
     content: '';
     position: absolute;
@@ -144,11 +150,9 @@ body {
     z-index: 5;
 }
 
-/* --- 4. LOGO AREA --- */
 .tag-brand {
     text-align: center;
     padding: 60px 0 20px 0;
-    /* Increased top padding from 40px to 60px */
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
@@ -161,11 +165,10 @@ body {
     filter: contrast(1.1) brightness(0.9);
 }
 
-/* --- 5. IMAGE SLIDER (THE ENGINE) --- */
+/* --- 6. IMAGE SLIDER WINDOW --- */
 .card-image-area {
     position: relative;
     height: 420px;
-    /* Sized for your 800x1066 portraits */
     background: #121212;
     overflow: hidden;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
@@ -189,12 +192,14 @@ body {
 .guitar-photo {
     min-width: 100%;
     height: 100%;
-    object-fit: contain; /* Changed from 'cover' to 'contain' */
-    background-color: #121212; /* Fills any blank side-space with a clean dark backdrop */
+    object-fit: contain; /* Prevents hero photo zoom */
+    background-color: #121212;
     scroll-snap-align: start;
     flex-shrink: 0;
+    cursor: zoom-in;
 }
-/* --- 6. SLIDER CONTROLS --- */
+
+/* --- 7. SLIDER CONTROLS --- */
 .slider-arrow {
     position: absolute;
     top: 50%;
@@ -214,17 +219,9 @@ body {
     transition: 0.2s;
 }
 
-.slider-arrow:hover {
-    background: rgba(0, 0, 0, 0.8);
-}
-
-.prev {
-    left: 10px;
-}
-
-.next {
-    right: 10px;
-}
+.slider-arrow:hover { background: rgba(0, 0, 0, 0.8); }
+.prev { left: 10px; }
+.next { right: 10px; }
 
 .slider-dots {
     position: absolute;
@@ -248,23 +245,8 @@ body {
     transform: scale(1.2);
 }
 
-.status-badge {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: var(--ink-dark);
-    color: var(--card-tan);
-    padding: 4px 10px;
-    font-size: 0.6rem;
-    font-weight: bold;
-    border-radius: 4px;
-    z-index: 10;
-}
-
-/* --- 7. TAG TEXT & SPECS --- */
-.tag-body {
-    padding: 25px;
-}
+/* --- 8. CARD CONTENT & TECHNICAL CHECKS --- */
+.tag-body { padding: 25px; }
 
 .tag-header {
     display: flex;
@@ -302,37 +284,30 @@ body {
 .check-item {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 7px 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     font-size: 0.85rem;
-    color: #1a1a1b;
+    color: var(--ink-dark);
 }
 
-.check-item strong {
-    font-weight: 700;
-}
+.check-item strong { font-weight: 700; }
 
-/* The indented nut work details */
+/* Clean Hierarchy Indentation */
 .sub-item {
     padding-left: 20px !important;
     font-style: italic;
     opacity: 0.8;
     border-bottom: none;
-    /* Removes the line between related sub-items */
     padding-top: 2px;
     padding-bottom: 2px;
 }
 
-.sub-item span {
-    font-size: 0.8rem;
-}
-
 .description {
     font-size: 0.85rem;
-    font-style: italic;
     line-height: 1.4;
     margin: 20px 0;
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 .btn-inquire {
@@ -353,23 +328,18 @@ body {
     color: var(--card-tan);
 }
 
-/* --- 8. FOOTER / TEACHING SECTION --- */
-
+/* --- 9. TEACHING / FOOTER --- */
 .dark-section {
     background: #121212;
     padding: 80px 20px;
     border-top: 1px solid #333;
     display: flex;
     flex-direction: column;
-    /* Stacks Title, Text, and Button */
     align-items: center;
-    /* Centers everything */
     text-align: center;
     gap: 15px;
-    /* Adds automatic breathing room between items */
 }
 
-/* Ensure the paragraph text doesn't stretch too wide on big screens */
 .dark-section p {
     max-width: 600px;
     line-height: 1.6;
@@ -387,25 +357,40 @@ body {
     margin-top: 20px;
 }
 
-.shop-preface {
-    max-width: 600px;
-    margin: 0 auto 50px auto;
-    /* Centered with 50px gap before the cards */
-    text-align: center;
-    line-height: 1.6;
-}
-
-.shop-preface p {
-    color: var(--accent);
-    /* Using your tan/gold accent color */
-    font-size: 1.2rem;
-    font-style: italic;
-    opacity: 0.9;
-}
-
-/* Ensure the grid and label stay centered under the preface */
-.container {
-    display: flex;
-    flex-direction: column;
+/* --- 10. CLICK-TO-ZOOM LIGHTBOX MODAL --- */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(18, 18, 18, 0.95);
+    backdrop-filter: blur(8px);
+    justify-content: center;
     align-items: center;
+    cursor: zoom-out;
+}
+
+.modal-content {
+    max-width: 90%;
+    max-height: 90vh;
+    object-fit: contain;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.7);
+    animation: zoomIn 0.25s ease;
+}
+
+.modal-close {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    color: #e2e2d5;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }
