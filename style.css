@@ -189,11 +189,11 @@ body {
 .guitar-photo {
     min-width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain; /* Changed from 'cover' to 'contain' */
+    background-color: #121212; /* Fills any blank side-space with a clean dark backdrop */
     scroll-snap-align: start;
     flex-shrink: 0;
 }
-
 /* --- 6. SLIDER CONTROLS --- */
 .slider-arrow {
     position: absolute;
