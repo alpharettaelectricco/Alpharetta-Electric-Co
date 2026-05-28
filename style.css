@@ -86,9 +86,9 @@ body {
     padding-top: 25px;
 }
 
-/* --- 4. THE SHOP CONTAINER --- */
+/* --- 4. THE SHOP CONTAINER & GRID ROW --- */
 .container {
-    padding: 60px 10%;
+    padding: 60px 5%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -120,7 +120,13 @@ body {
 
 .guitar-grid {
     display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
+    gap: 40px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 /* --- 5. THE HANGTAG CARD --- */
@@ -128,14 +134,14 @@ body {
     background-color: var(--card-tan) !important;
     color: var(--ink-dark);
     width: 350px;
+    flex-shrink: 0;
     border-radius: 12px;
     box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.3);
     position: relative;
     overflow: hidden;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
 }
 
-/* Eyelet Hole */
 .guitar-card::before {
     content: '';
     position: absolute;
@@ -192,7 +198,7 @@ body {
 .guitar-photo {
     min-width: 100%;
     height: 100%;
-    object-fit: contain; /* Prevents hero photo zoom */
+    object-fit: contain;
     background-color: #121212;
     scroll-snap-align: start;
     flex-shrink: 0;
@@ -230,7 +236,7 @@ body {
     transform: translateX(-50%);
     z-index: 100;
     display: flex;
-    gap: 8px;
+    gap: 6px;
 }
 
 .dot {
@@ -293,6 +299,7 @@ body {
 
 .check-item strong { font-weight: 700; }
 
+/* Sub-item right justification layout */
 .sub-item {
     padding-left: 20px !important;
     border-bottom: none;
@@ -300,23 +307,23 @@ body {
     padding-bottom: 2px;
 }
 
-/* This keeps the label side italic and slightly faded */
 .sub-item span {
     font-style: italic;
     opacity: 0.8;
 }
 
-/* This forces the right side to be solid, un-italicized bold black */
 .sub-item strong {
     font-style: normal;
     font-weight: 700;
     color: var(--ink-dark);
 }
+
 .description {
     font-size: 0.85rem;
-    line-height: 1.4;
+    line-height: 1.5;
     margin: 20px 0;
     opacity: 0.9;
+    text-align: left;
 }
 
 .btn-inquire {
@@ -366,7 +373,7 @@ body {
     margin-top: 20px;
 }
 
-/* --- 10. CLICK-TO-ZOOM LIGHTBOX MODAL --- */
+/* --- 10. LIGHTBOX MODAL --- */
 .modal {
     display: none;
     position: fixed;
