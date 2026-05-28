@@ -30,7 +30,8 @@
             <p class="hero-details">
                 Every guitar we offer is inspected for neck geometry, fret condition, action, tuning stability, and
                 electronic performance. Any adjustments or corrective work needed to unlock its full feel — from fret
-                polishing to nut refinement or spot-leveling — are performed with intention and care. This is more than a simple setup. It’s a full "step-up" to ensure the playability matches the potential of the instrument. 
+                polishing to nut refinement or spot-leveling — are performed with intention and care. This is more than
+                a simple setup. It’s a full "step-up" to ensure the playability matches the potential of the instrument.
             </p>
             <p class="hero-tagline">
                 Our vision is simple: if you love playing <strong>this</strong> guitar, you’ll love playing <span style="font-style: normal; font-weight: 800;">the</span> guitar.
@@ -40,7 +41,7 @@
 
     <section id="shop" class="container">
         <h2 class="section-label">Available Now</h2>
-        
+
         <div class="shop-preface">
             <p>
                 Each <strong>Step-Up Select</strong> instrument is carefully chosen for its potential, then fully
@@ -56,8 +57,8 @@
                 </div>
 
                 <div class="card-image-area">
-                    <button class="slider-arrow prev" onclick="moveSlider(-1)">&#10094;</button>
-                    <button class="slider-arrow next" onclick="moveSlider(1)">&#10095;</button>
+                    <button class="slider-arrow prev" onclick="moveSlider(this, -1)">&#10094;</button>
+                    <button class="slider-arrow next" onclick="moveSlider(this, 1)">&#10095;</button>
 
                     <div class="image-slider" id="guitarSlider1">
                         <img src="firefly-hero.jpeg" class="guitar-photo" alt="Hero" onclick="zoomImage(this)">
@@ -95,10 +96,14 @@
                         <div class="check-item"><span>Strings:</span> <strong>Stringjoy Soft Touch 9.5 - 44</strong></div>
                     </div>
 
-                    <p class="description"> 
-                        Firefly guitars are built for the player who wants the aesthetic of a vintage or boutique instrument and modern high-end appointments—like a roasted maple neck and stainless steel frets—without the boutique investment.
-                        We will only say <em>looks like</em> a vintage guitar because the distressed white-over-sunburst is a graphic finish rather than multiple layers of hand-sprayed nitrocellulose lacquer. It’s not what I’d call "pretty" in a traditional sense, but it’s undeniably cool.
-                        The tradeoff with these instruments is a reputation for being rough out of the box. That is where the Step-Up process comes in. We’ve handled the technical heavy lifting—leveling the frets, refining the nut, and dialing in the action—to ensure the playability finally matches the look. Don’t risk the "online dud" lottery. This specific guitar has been vetted, sorted, and brought up to code. It’s ready to play the moment you pick it up.
+                    <p class="description">
+                        Firefly guitars are built for the player who wants the aesthetic of a vintage or boutique
+                        instrument and modern high-end appointments—like a roasted maple neck and stainless steel frets—without the boutique investment.
+                        We will only say <em>looks like</em> a vintage guitar because the distressed white-over-sunburst
+                        is a graphic finish rather than multiple layers of hand-sprayed nitrocellulose lacquer. It’s not what
+                        I’d call "pretty" in a traditional sense, but it’s undeniably cool.
+                        The tradeoff with these instruments is a reputation for being rough out of the box. That is
+                        where the Step-Up process comes in. We’ve handled the technical heavy lifting—leveling the frets, refining the nut, and dialing in the action—to ensure the playability finally matches the look. Don’t risk the "online dud" lottery. This specific guitar has been vetted, sorted, and brought up to code. It’s ready to play the moment you pick it up.
                     </p>
 
                     <a href="mailto:jeff@alpharettaelectric.co?subject=Firefly Inquiry" class="btn-inquire">Inquire to Buy</a>
@@ -111,8 +116,8 @@
                 </div>
 
                 <div class="card-image-area">
-                    <button class="slider-arrow prev" onclick="moveSlider(-1)">&#10094;</button>
-                    <button class="slider-arrow next" onclick="moveSlider(1)">&#10095;</button>
+                    <button class="slider-arrow prev" onclick="moveSlider(this, -1)">&#10094;</button>
+                    <button class="slider-arrow next" onclick="moveSlider(this, 1)">&#10095;</button>
 
                     <div class="image-slider" id="guitarSlider2">
                         <img src="yamaha-hero.jpeg" class="guitar-photo" alt="Hero" onclick="zoomImage(this)">
@@ -157,11 +162,32 @@
                     </div>
 
                     <p class="description">
-                        This guitar is the embodiment of my business model. I bought this one from a young man on Facebook Marketplace. He told me it had sat unplayed for several years, and I could totally see why. The input jack was loose and wiggling. It was dusty and grimy. The strings were lined with what I can only assume was tetanus. And the action... oh, the action. It was so high that it was unplayable. I don't blame him for giving up on that guitar. But I hate the idea that he might have given up on <em>the</em> guitar when he did.
+                        This guitar is the embodiment of my business model. I bought this one from a young man on Facebook
+                        Marketplace. He told me it had sat unplayed for several years, and I could totally see why. The
+                        input jack was loose and wiggling. It was dusty and grimy. The strings were lined with what I can
+                        only assume was tetanus. And the action... oh, the action. It was so high that it was unplayable. I
+                        don't blame him for giving up on that guitar. But I hate the idea that he might have given up on
+                        <em>the</em> guitar when he did.
                         <br><br>
-                        After a full Alpharetta Electric Co. Step-Up, though, this thing plays better than it did even when it was a new guitar. The neck is straight, the frets are clean, and the intonation is spot on. It's a great example of how a little bit of love and care can turn a neglected guitar into something special. In fact, this guitar in particular was very special. It's unusual to get an entry-level instrument dialed in at .005" relief with 3/64" action on the treble side and 4/64" action on the bass side. But this neck is so straight, and these factory frets are so good that it plays as good as the $3,500 Iconic Guitars S-Style I have in the shop. It's a testament to the fact that you don't need to spend a lot of money to get a great playing guitar. You just need to know how to step it up properly.
+                        After a full Alpharetta Electric Co. Step-Up, though, this thing plays better than it did even when
+                        it was a new guitar. The neck is straight, the frets are clean, and the intonation is spot on. It's
+                        a great example of how a little bit of love and care can turn a neglected guitar into something
+                        special. In fact, this guitar in particular was very special. It's unusual to get an entry-level
+                        instrument dialed in at .005" relief with 3/64" action on the treble side and 4/64" action on the
+                        bass side. But this neck is so straight, and these factory frets are so good that it plays as good
+                        as the $3,500 Iconic Guitars S-Style I have in the shop. It's a testament to the fact that you don't
+                        need to spend a lot of money to get a great playing guitar. You just need to know how to step it up
+                        properly.
                         <br><br>
-                        If you're turned off by a Yamaha guitar, you shouldn't be. There is a reason almost every guitar teacher and tech recommends Yamaha. While other budget brands rely on flash, Yamaha focuses on relentless consistency. They are built like tanks, meaning the neck geometry and fretwork are incredibly stable right out of the factory. The tradeoff with a brand-new beginner model is that the factory setup is usually generic—designed to safely survive a shipping container, not to feel like a custom shop instrument. That’s where our Step-Up process comes in. We’ve taken an already rock-solid platform and dialed in the neck relief, refined the nut slots, and polished the frets with precision. Don’t buy a generic factory box online. This Yamaha has been vetted, sorted, and meticulously brought up to code to ensure it is an absolute joy to play from day one.
+                        If you're turned off by a Yamaha guitar, you shouldn't be. There is a reason almost every guitar
+                        teacher and tech recommends Yamaha. While other budget brands rely on flash, Yamaha focuses on
+                        relentless consistency. They are built like tanks, meaning the neck geometry and fretwork are
+                        incredibly stable right out of the factory. The tradeoff with a brand-new beginner model is that the
+                        factory setup is usually generic—designed to safely survive a shipping container, not to feel like a
+                        custom shop instrument. That’s where our Step-Up process comes in. We’ve taken an already rock-solid
+                        platform and dialed in the neck relief, refined the nut slots, and polished the frets with
+                        precision. Don’t buy a generic factory box online. This Yamaha has been vetted, sorted, and
+                        meticulously brought up to code to ensure it is an absolute joy to play from day one.
                     </p>
 
                     <a href="mailto:jeff@alpharettaelectric.co?subject=Yamaha Pacifica Inquiry" class="btn-inquire">Inquire to Buy</a>
@@ -184,19 +210,33 @@
     </div>
 
     <script>
-        function moveSlider(direction) {
-            const slider = document.querySelector('.image-slider');
+        function moveSlider(buttonElement, direction) {
+            const cardImageArea = buttonElement.closest('.card-image-area');
+            const slider = cardImageArea.querySelector('.image-slider');
             const scrollAmount = slider.offsetWidth;
+
             slider.scrollBy({
                 left: direction * scrollAmount,
                 behavior: 'smooth'
             });
         }
 
-        // Monitors all sliders on page for dot tracking
         document.querySelectorAll('.image-slider').forEach((slider) => {
             slider.addEventListener('scroll', () => {
                 const card = slider.closest('.card-image-area');
+                const index = Math.round(slider.scrollLeft / slider.offsetWidth);
+                const dots = card.querySelectorAll('.dot');
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === index);
+                });
+            });
+        });
+
+        // Small adjustment to make sure the scroll dots trigger on independent slider containers
+        document.querySelectorAll('.image-slider').forEach((slider) => {
+            slider.addEventListener('scroll', () => {
+                const card = slider.closest('.card-image-area');
+                if (!card) return; // Prevent break if outside wrapper
                 const index = Math.round(slider.scrollLeft / slider.offsetWidth);
                 const dots = card.querySelectorAll('.dot');
                 dots.forEach((dot, i) => {
@@ -219,4 +259,5 @@
     </script>
 
 </body>
+
 </html>
