@@ -342,50 +342,54 @@
     }
 
     function renderSheet() {
-      const text = editor.value;
-      const lines = text.split('\n');
+  const text = editor.value;
+  const lines = text.split('\n');
 
-      let title = "UNTITLED SONG";
-      let key = "";
-      let cue = "";
-      let bodyHtml = "";
+  let title = "UNTITLED SONG";
+  let key = "";
+  let headerCue = "";
+  let bodyHtml = "";
 
-      lines.forEach(line => {
-        const trimmed = line.trim();
-        if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
-          const content = trimmed.slice(1, -1);
-          const [keyName, ...valParts] = content.split(':');
-          const value = valParts.join(':').trim();
+  lines.forEach(line => {
+    const trimmed = line.trim();
+    if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
+      const content = trimmed.slice(1, -1);
+      const [keyName, ...valParts] = content.split(':');
+      const value = valParts.join(':').trim();
 
-          if (keyName.toLowerCase() === 'title') title = value;
-          if (keyName.toLowerCase() === 'key') key = value;
-          if (keyName.toLowerCase() === 'cue') cue = value;
-        } else if (trimmed === '') {
-          bodyHtml += `<div style="height: 0.8em;"></div>`;
-        } else {
-          const pairs = parseLine(line);
-          let lineHtml = `<div class="song-line">`;
-          pairs.forEach(p => {
-            lineHtml += `
-              <div class="chord-pair">
-                <div class="chord-mark">${p.chord || ''}</div>
-                <div class="lyric-text">${p.text}</div>
-              </div>`;
-          });
-          lineHtml += `</div>`;
-          bodyHtml += lineHtml;
-        }
+      if (keyName.toLowerCase() === 'title') {
+        title = value;
+      } else if (keyName.toLowerCase() === 'key') {
+        key = value;
+      } else if (keyName.toLowerCase() === 'cue') {
+        // Render cue boxes directly in line with lyrics/sections
+        bodyHtml += `<div class="cue-box">⚡ ${value}</div>`;
+      }
+    } else if (trimmed === '') {
+      bodyHtml += `<div style="height: 0.8em;"></div>`;
+    } else {
+      const pairs = parseLine(line);
+      let lineHtml = `<div class="song-line">`;
+      pairs.forEach(p => {
+        lineHtml += `
+          <div class="chord-pair">
+            <div class="chord-mark">${p.chord || ''}</div>
+            <div class="lyric-text">${p.text}</div>
+          </div>`;
       });
-
-      paper.innerHTML = `
-        <div class="sheet-header">
-          <div class="sheet-title">${title}</div>
-          <div class="sheet-meta">${key ? 'KEY: ' + key : ''}</div>
-        </div>
-        ${cue ? `<div class="cue-box">⚡ ${cue}</div>` : ''}
-        <div class="sheet-body">${bodyHtml}</div>
-      `;
+      lineHtml += `</div>`;
+      bodyHtml += lineHtml;
     }
+  });
+
+  paper.innerHTML = `
+    <div class="sheet-header">
+      <div class="sheet-title">${title}</div>
+      <div class="sheet-meta">${key ? 'KEY: ' + key : ''}</div>
+    </div>
+    <div class="sheet-body">${bodyHtml}</div>
+  `;
+}
 
     function shiftChord(chord, semitones) {
       return chord.replace(/[A-G][#b]?/g, (match) => {
