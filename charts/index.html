@@ -92,7 +92,7 @@
       color: #fff;
     }
 
-    .delete-btn { color: #ef4444; background: none; border: none; cursor: pointer; font-size: 1.1rem; padding: 0 4px; opacity: 0.6; }
+    .delete-btn { color: #ef4444; background: none; border: border: none; cursor: pointer; font-size: 1.1rem; padding: 0 4px; opacity: 0.6; }
     .delete-btn:hover { opacity: 1; }
 
     /* Workspace */
@@ -231,7 +231,7 @@
         <span>Chart Engine</span>
       </div>
 
-      <h2>Setlist (15 Songs)</h2>
+      <h2 id="sidebar-header">Setlist</h2>
       <div class="song-list" id="songList"></div>
       <button onclick="createNewSong()" style="margin-top: 12px;">+ New Song</button>
     </div>
@@ -244,6 +244,9 @@
           <button onclick="transposeCurrent(1)">+1 Semitone</button>
         </div>
         <div class="btn-group">
+          <button onclick="exportBackup()">Export Backup</button>
+          <button onclick="triggerImport()">Import Backup</button>
+          <input type="file" id="importInput" accept=".txt,.json" style="display:none;" onchange="importBackup(event)">
           <button class="primary" onclick="window.print()">Export / Save PDF</button>
         </div>
       </div>
@@ -274,12 +277,14 @@
     const editor = document.getElementById('editor');
     const paper = document.getElementById('paper');
     const songListEl = document.getElementById('songList');
+    const sidebarHeader = document.getElementById('sidebar-header');
 
     function save() {
       localStorage.setItem('aec_setlist', JSON.stringify(setlist));
     }
 
     function renderSidebar() {
+      sidebarHeader.innerText = `Setlist (${setlist.length} Songs)`;
       songListEl.innerHTML = '';
       setlist.forEach(song => {
         const item = document.createElement('div');
@@ -342,54 +347,52 @@
     }
 
     function renderSheet() {
-  const text = editor.value;
-  const lines = text.split('\n');
+      const text = editor.value;
+      const lines = text.split('\n');
 
-  let title = "UNTITLED SONG";
-  let key = "";
-  let headerCue = "";
-  let bodyHtml = "";
+      let title = "UNTITLED SONG";
+      let key = "";
+      let bodyHtml = "";
 
-  lines.forEach(line => {
-    const trimmed = line.trim();
-    if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
-      const content = trimmed.slice(1, -1);
-      const [keyName, ...valParts] = content.split(':');
-      const value = valParts.join(':').trim();
+      lines.forEach(line => {
+        const trimmed = line.trim();
+        if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
+          const content = trimmed.slice(1, -1);
+          const [keyName, ...valParts] = content.split(':');
+          const value = valParts.join(':').trim();
 
-      if (keyName.toLowerCase() === 'title') {
-        title = value;
-      } else if (keyName.toLowerCase() === 'key') {
-        key = value;
-      } else if (keyName.toLowerCase() === 'cue') {
-        // Render cue boxes directly in line with lyrics/sections
-        bodyHtml += `<div class="cue-box">⚡ ${value}</div>`;
-      }
-    } else if (trimmed === '') {
-      bodyHtml += `<div style="height: 0.8em;"></div>`;
-    } else {
-      const pairs = parseLine(line);
-      let lineHtml = `<div class="song-line">`;
-      pairs.forEach(p => {
-        lineHtml += `
-          <div class="chord-pair">
-            <div class="chord-mark">${p.chord || ''}</div>
-            <div class="lyric-text">${p.text}</div>
-          </div>`;
+          if (keyName.toLowerCase() === 'title') {
+            title = value;
+          } else if (keyName.toLowerCase() === 'key') {
+            key = value;
+          } else if (keyName.toLowerCase() === 'cue') {
+            bodyHtml += `<div class="cue-box">⚡ ${value}</div>`;
+          }
+        } else if (trimmed === '') {
+          bodyHtml += `<div style="height: 0.8em;"></div>`;
+        } else {
+          const pairs = parseLine(line);
+          let lineHtml = `<div class="song-line">`;
+          pairs.forEach(p => {
+            lineHtml += `
+              <div class="chord-pair">
+                <div class="chord-mark">${p.chord || ''}</div>
+                <div class="lyric-text">${p.text}</div>
+              </div>`;
+          });
+          lineHtml += `</div>`;
+          bodyHtml += lineHtml;
+        }
       });
-      lineHtml += `</div>`;
-      bodyHtml += lineHtml;
-    }
-  });
 
-  paper.innerHTML = `
-    <div class="sheet-header">
-      <div class="sheet-title">${title}</div>
-      <div class="sheet-meta">${key ? 'KEY: ' + key : ''}</div>
-    </div>
-    <div class="sheet-body">${bodyHtml}</div>
-  `;
-}
+      paper.innerHTML = `
+        <div class="sheet-header">
+          <div class="sheet-title">${title}</div>
+          <div class="sheet-meta">${key ? 'KEY: ' + key : ''}</div>
+        </div>
+        <div class="sheet-body">${bodyHtml}</div>
+      `;
+    }
 
     function shiftChord(chord, semitones) {
       return chord.replace(/[A-G][#b]?/g, (match) => {
@@ -411,6 +414,45 @@
       if (current) current.content = text;
       save();
       renderSheet();
+    }
+
+    /* Backup & Restore Functions */
+    function exportBackup() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(setlist, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", "aec_setlist_backup.txt");
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    function triggerImport() {
+      document.getElementById('importInput').click();
+    }
+
+    function importBackup(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const importedSetlist = JSON.parse(e.target.result);
+          if (Array.isArray(importedSetlist) && importedSetlist.length > 0) {
+            setlist = importedSetlist;
+            currentSongId = setlist[0].id;
+            save();
+            selectSong(currentSongId);
+            alert("Setlist imported successfully!");
+          } else {
+            alert("Invalid setlist file format.");
+          }
+        } catch (err) {
+          alert("Could not read backup file.");
+        }
+      };
+      reader.readAsText(file);
     }
 
     editor.addEventListener('input', () => {
