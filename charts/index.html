@@ -3,60 +3,216 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Solo Gig Chart Maker</title>
+  <title>Alpharetta Electric Co. | Solo Chart Maker</title>
   <style>
     :root {
-      --bg: #121214;
-      --panel: #1e1e24;
-      --text: #e4e4e7;
-      --accent: #f59e0b;
-      --border: #3f3f46;
+      --bg: #18181a;
+      --panel: #222225;
+      --panel-border: #333338;
+      --kraft: #d4a373;
+      --kraft-light: #f4ece1;
+      --text-muted: #a1a1aa;
+      --accent: #dda15e;
+      --ink: #1c1917;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); height: 100vh; overflow: hidden; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+      background: var(--bg); 
+      color: #e4e4e7; 
+      height: 100vh; 
+      overflow: hidden; 
+    }
 
-    /* App Layout */
     .app-container { display: flex; height: 100vh; }
     
-    /* Sidebar Manager */
-    .sidebar { width: 260px; background: #18181b; border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 15px; }
-    .sidebar h2 { font-size: 1.1rem; margin-bottom: 12px; color: #a1a1aa; text-transform: uppercase; letter-spacing: 1px; }
-    .song-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
-    .song-item { padding: 10px; background: var(--panel); border: 1px solid transparent; border-radius: 6px; cursor: pointer; font-size: 0.95rem; display: flex; justify-content: space-between; align-items: center; }
-    .song-item.active { border-color: var(--accent); font-weight: bold; }
-    .delete-btn { color: #ef4444; background: none; border: none; cursor: pointer; font-size: 1rem; padding: 0 4px; }
+    /* Sidebar */
+    .sidebar { 
+      width: 280px; 
+      background: #121214; 
+      border-right: 1px solid var(--panel-border); 
+      display: flex; 
+      flex-direction: column; 
+      padding: 20px; 
+    }
+    
+    .brand-header {
+      border-bottom: 2px solid var(--kraft);
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
 
-    /* Main Workspace */
+    .brand-header h1 {
+      font-family: Georgia, serif;
+      font-size: 1.1rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .brand-header span {
+      font-size: 0.75rem;
+      color: var(--kraft);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      display: block;
+      margin-top: 2px;
+    }
+
+    .sidebar h2 { 
+      font-size: 0.8rem; 
+      margin-bottom: 10px; 
+      color: var(--text-muted); 
+      text-transform: uppercase; 
+      letter-spacing: 1px; 
+    }
+
+    .song-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+    
+    .song-item { 
+      padding: 12px; 
+      background: var(--panel); 
+      border: 1px solid var(--panel-border); 
+      border-radius: 4px; 
+      cursor: pointer; 
+      font-size: 0.9rem; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+      transition: all 0.15s ease;
+    }
+
+    .song-item:hover { border-color: var(--kraft); }
+
+    .song-item.active { 
+      border-color: var(--kraft); 
+      background: #2a2a2e;
+      font-weight: 600; 
+      color: #fff;
+    }
+
+    .delete-btn { color: #ef4444; background: none; border: none; cursor: pointer; font-size: 1.1rem; padding: 0 4px; opacity: 0.6; }
+    .delete-btn:hover { opacity: 1; }
+
+    /* Workspace */
     .workspace { flex: 1; display: flex; flex-direction: column; }
-    .toolbar { height: 50px; background: var(--panel); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; }
-    .btn-group { display: flex; gap: 8px; align-items: center; }
-    button { background: #27272a; color: #fff; border: 1px solid var(--border); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: 500; }
+    
+    .toolbar { 
+      height: 56px; 
+      background: var(--panel); 
+      border-bottom: 1px solid var(--panel-border); 
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between; 
+      padding: 0 24px; 
+    }
+
+    .btn-group { display: flex; gap: 10px; align-items: center; font-size: 0.85rem; color: var(--text-muted); }
+    
+    button { 
+      background: #2a2a2e; 
+      color: #fff; 
+      border: 1px solid var(--panel-border); 
+      padding: 8px 14px; 
+      border-radius: 4px; 
+      cursor: pointer; 
+      font-size: 0.85rem; 
+      font-weight: 500; 
+      transition: background 0.15s ease;
+    }
+
     button:hover { background: #3f3f46; }
-    button.primary { background: var(--accent); color: #000; border: none; font-weight: bold; }
-    button.primary:hover { background: #d97706; }
+
+    button.primary { 
+      background: var(--kraft); 
+      color: var(--ink); 
+      border: none; 
+      font-weight: 700; 
+      letter-spacing: 0.5px;
+    }
+
+    button.primary:hover { background: #c69263; }
 
     .editor-container { flex: 1; display: flex; overflow: hidden; }
-    textarea { width: 45%; background: #141416; color: #f4f4f5; border: none; border-right: 1px solid var(--border); padding: 20px; font-family: 'Courier New', Courier, monospace; font-size: 0.95rem; resize: none; outline: none; line-height: 1.5; }
-
-    /* Sheet Preview Window */
-    .preview-window { flex: 1; background: #27272a; padding: 20px; overflow-y: auto; display: flex; justify-content: center; }
-    .paper { background: #ffffff; color: #000000; width: 8.5in; min-height: 11in; padding: 0.6in; box-shadow: 0 10px 25px rgba(0,0,0,0.5); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; display: flex; flex-direction: column; justify-content: flex-start; }
-
-    /* Rendered Chart Styling */
-    .sheet-header { border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: flex-end; }
-    .sheet-title { font-size: 20pt; font-weight: 800; text-transform: uppercase; line-height: 1; }
-    .sheet-meta { font-size: 10pt; text-align: right; font-weight: 600; color: #444; }
     
-    .cue-box { background: #f3f4f6; border-left: 4px solid #000; padding: 6px 10px; font-size: 9.5pt; font-weight: 600; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+    textarea { 
+      width: 45%; 
+      background: #141416; 
+      color: #f4f4f5; 
+      border: none; 
+      border-right: 1px solid var(--panel-border); 
+      padding: 24px; 
+      font-family: 'Courier New', Courier, monospace; 
+      font-size: 0.95rem; 
+      resize: none; 
+      outline: none; 
+      line-height: 1.6; 
+    }
 
-    .sheet-body { display: flex; flex-direction: column; gap: 14px; flex: 1; }
+    /* Preview Paper */
+    .preview-window { 
+      flex: 1; 
+      background: #0f0f10; 
+      padding: 30px; 
+      overflow-y: auto; 
+      display: flex; 
+      justify-content: center; 
+    }
+
+    .paper { 
+      background: #ffffff; 
+      color: var(--ink); 
+      width: 8.5in; 
+      height: fit-content; 
+      min-height: 11in; 
+      padding: 0.6in; 
+      box-shadow: 0 12px 35px rgba(0,0,0,0.6); 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+      display: flex; 
+      flex-direction: column; 
+    }
+
+    /* Chart Elements */
+    .sheet-header { 
+      border-bottom: 2px solid var(--ink); 
+      padding-bottom: 8px; 
+      margin-bottom: 16px; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: flex-end; 
+    }
+
+    .sheet-title { 
+      font-family: Georgia, serif; 
+      font-size: 22pt; 
+      font-weight: 700; 
+      text-transform: uppercase; 
+      letter-spacing: 0.5px;
+      line-height: 1; 
+    }
+
+    .sheet-meta { font-size: 10pt; text-align: right; font-weight: 700; color: #444; letter-spacing: 1px; }
+    
+    .cue-box { 
+      background: var(--kraft-light); 
+      border-left: 4px solid var(--kraft); 
+      color: #432818;
+      padding: 8px 12px; 
+      font-size: 9.5pt; 
+      font-weight: 700; 
+      margin-bottom: 16px; 
+      text-transform: uppercase; 
+      letter-spacing: 0.5px; 
+    }
+
+    .sheet-body { display: flex; flex-direction: column; gap: 12px; flex: 1; }
     .song-line { display: flex; flex-wrap: wrap; row-gap: 1.2em; column-gap: 0; line-height: 1; margin-bottom: 4px; }
     .chord-pair { display: inline-flex; flex-direction: column; justify-content: flex-end; position: relative; padding-right: 0.25em; }
     .chord-mark { font-weight: 800; font-size: 11pt; color: #b45309; height: 1.1em; line-height: 1.1; font-family: monospace; }
     .lyric-text { font-size: 11pt; font-weight: 500; color: #111827; white-space: pre; line-height: 1; }
 
-    /* PDF Print Rule Override */
+    /* Print Override */
     @media print {
       body { background: white; color: black; height: auto; overflow: visible; }
       .sidebar, .toolbar, textarea { display: none !important; }
@@ -69,23 +225,26 @@
 <body>
 
   <div class="app-container">
-    <!-- Sidebar -->
     <div class="sidebar">
+      <div class="brand-header">
+        <h1>Alpharetta Electric</h1>
+        <span>Chart Engine</span>
+      </div>
+
       <h2>Setlist (15 Songs)</h2>
       <div class="song-list" id="songList"></div>
-      <button onclick="createNewSong()" style="margin-top: 10px;">+ New Song</button>
+      <button onclick="createNewSong()" style="margin-top: 12px;">+ New Song</button>
     </div>
 
-    <!-- Main Workspace -->
     <div class="workspace">
       <div class="toolbar">
         <div class="btn-group">
-          <span>Transpose:</span>
+          <span>Transpose Key:</span>
           <button onclick="transposeCurrent(-1)">-1 Semitone</button>
           <button onclick="transposeCurrent(1)">+1 Semitone</button>
         </div>
         <div class="btn-group">
-          <button class="primary" onclick="window.print()">Export / Print PDF</button>
+          <button class="primary" onclick="window.print()">Export / Save PDF</button>
         </div>
       </div>
 
@@ -102,11 +261,11 @@
     const scale = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
     const flatMap = { "Db":"C#", "Eb":"D#", "Gb":"F#", "Ab":"G#", "Bb":"A#" };
 
-    let setlist = JSON.parse(localStorage.getItem('bass_vi_setlist')) || [
+    let setlist = JSON.parse(localStorage.getItem('aec_setlist')) || [
       {
         id: "1",
-        title: "Sample Chart",
-        content: `{title: Wayfaring Stranger}\n{key: Am}\n{cue: Bass VI: Capo 2 | Octave pedal ON for chorus looper}\n\n[Am]I am a poor [Am]wayfaring stranger\nWhile traveling [Dm]through this world of [Am]woe\nYet there's no [Am]sickness, toil, nor danger\nIn that bright [Dm]land to which I [Am]go\n\nI'm going [F]there to see my [C]father\nI'm going [F]there no more to [E7]roam\nI'm only [Am]going over Jordan\nI'm only [Dm]going [Em]over [Am]home`
+        title: "Ain't No Sunshine",
+        content: `{title: Ain't No Sunshine}\n{key: Am}\n{cue: Bass VI: Palm mute intro | Loop groove on 'I know'}\n\n[Am] (Intro Riff)\n\n[Am] Ain't no sunshine when she's [Am]gone [Em7] [G]\n[Am] It's not warm when she's [Am]away [Em7] [G]\nAin't no sunshine when she's [Em7]gone\nAnd she's [Dm7]always gone too long\nAny[Am]time she goes away`
       }
     ];
 
@@ -117,7 +276,7 @@
     const songListEl = document.getElementById('songList');
 
     function save() {
-      localStorage.setItem('bass_vi_setlist', JSON.stringify(setlist));
+      localStorage.setItem('aec_setlist', JSON.stringify(setlist));
     }
 
     function renderSidebar() {
@@ -126,7 +285,6 @@
         const item = document.createElement('div');
         item.className = `song-item ${song.id === currentSongId ? 'active' : ''}`;
         
-        // Extract title from directives or fall back
         const titleMatch = song.content.match(/\{title:\s*(.*?)\}/i);
         const displayTitle = titleMatch ? titleMatch[1] : (song.title || "Untitled");
 
@@ -151,21 +309,20 @@
       setlist.push({
         id: newId,
         title: "New Song",
-        content: `{title: New Song}\n{key: E}\n{cue: Bass VI Notes: Standard tuning}\n\n[E]Type your lyrics and [A]chords here.`
+        content: `{title: New Song}\n{key: E}\n{cue: Bass VI Cues: Standard E}\n\n[E]Type lyrics and [A]chords here.`
       });
       selectSong(newId);
       save();
     }
 
     function deleteSong(id) {
-      if (setlist.length <= 1) return alert("You need at least one song in your setlist.");
+      if (setlist.length <= 1) return alert("Your setlist must contain at least one chart.");
       setlist = setlist.filter(s => s.id !== id);
       if (currentSongId === id) currentSongId = setlist[0].id;
       save();
       selectSong(currentSongId);
     }
 
-    // Chord parsing engine
     function parseLine(line) {
       const pairs = [];
       const regex = /\[(.*?)\]|([^\[]+)/g;
@@ -180,10 +337,7 @@
           currentChord = "";
         }
       }
-      if (currentChord !== "") {
-        pairs.push({ chord: currentChord, text: " " });
-      }
-
+      if (currentChord !== "") pairs.push({ chord: currentChord, text: " " });
       return pairs;
     }
 
@@ -233,7 +387,6 @@
       `;
     }
 
-    // Transposition logic
     function shiftChord(chord, semitones) {
       return chord.replace(/[A-G][#b]?/g, (match) => {
         let normalized = flatMap[match] || match;
@@ -256,7 +409,6 @@
       renderSheet();
     }
 
-    // Realtime listeners
     editor.addEventListener('input', () => {
       const current = setlist.find(s => s.id === currentSongId);
       if (current) {
@@ -267,7 +419,6 @@
       renderSheet();
     });
 
-    // Init App
     renderSidebar();
     selectSong(currentSongId);
   </script>
