@@ -197,7 +197,7 @@
       color: var(--ink); 
       width: 8.5in; 
       max-width: 100%;
-      height: fit-content; 
+      height: auto; 
       min-height: 11in; 
       padding: 0.5in; 
       box-shadow: 0 12px 35px rgba(0,0,0,0.6); 
@@ -205,6 +205,7 @@
       display: flex; 
       flex-direction: column; 
       page-break-after: always;
+      margin-bottom: 20px;
     }
 
     /* Chart Elements */
@@ -373,7 +374,7 @@
     const defaultGuideSong = {
       id: "1",
       title: "Chart Maker Guide",
-      content: `{title: How To Use Chart Maker}\n{key: G}\n{cue: Performance Cues: Add structural notes, Capo positions, or pedal triggers}\n\n[G]Place chords in brackets inline with your [C]lyrics.\nThey automatically render [D]directly above the word.\n\n{cue: Key Transposition}\nUse the [-1] and [+1] buttons in the top toolbar.\nIt shifts every [Em]chord and updates the [C]header key live.\n\n{cue: Saving & Backups}\nAll your [G]charts save automatically in your browser.\nUse Export/Import Backup to save or [D]sync setlists across devices.\n\n{cue: PDF & Print Options}\nPrint Song prints just this [C]chart.\nBatch Export prints all [D]songs with an automatic Table of Contents cover page.\nDownload Folder downloads a [.zip] of individual PDFs.`
+      content: `{title: How To Use Chart Maker}\n{key: G}\n{cue: Performance Cues: Add structural notes, Capo positions, or pedal triggers}\n\n[G]Place chords in brackets inline with your [C]lyrics.\nThey automatically render [D]directly above the word.\n\n{cue: Key Transposition}\nUse the [-1] and [+1] buttons in the top toolbar.\nIt shifts every [Em]chord and updates the [C]header key live.\n\n{cue: Song Example: Amazing Grace}\n[G] Amazing grace, how [C]sweet the [G]sound\nThat saved a wretch like [D]me!\nI [G]once was lost, but [C]now am [G]found;\nWas blind, but [D]now I [G]see.\n\n{cue: PDF & Print Options}\nPrint Song prints just this [C]chart.\nBatch Export prints all [D]songs with an automatic Table of Contents cover page.\nDownload Folder downloads a [.zip] of individual PDFs.`
     };
 
     let setlist = JSON.parse(localStorage.getItem('aec_setlist')) || [ defaultGuideSong ];
