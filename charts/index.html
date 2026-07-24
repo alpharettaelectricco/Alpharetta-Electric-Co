@@ -284,8 +284,8 @@
     let setlist = JSON.parse(localStorage.getItem('aec_setlist')) || [
       {
         id: "1",
-        title: "Ain't No Sunshine",
-        content: `{title: Ain't No Sunshine}\n{key: Am}\n{cue: Bass VI: Palm mute intro | Loop groove on 'I know'}\n\n[Am] (Intro Riff)\n\n[Am] Ain't no sunshine when she's [Am]gone [Em7] [G]\n[Am] It's not warm when she's [Am]away [Em7] [G]\nAin't no sunshine when she's [Em7]gone\nAnd she's [Dm7]always gone too long\nAny[Am]time she goes away`
+        title: "Chart Maker Guide",
+        content: `{title: How To Use Chart Maker}\n{key: G}\n{cue: Performance Cues: Add structural notes, Capo positions, or pedal triggers}\n\n[G]Place chords in brackets inline with your [C]lyrics.\nThey automatically render [D]directly above the word.\n\n{cue: Key Transposition}\nUse the [-1] and [+1] buttons in the top toolbar.\nIt shifts every [Em]chord and updates the [C]header key live.\n\n{cue: Saving & Backups}\nAll your [G]charts save automatically in your browser.\nUse Export/Import Backup to save or [D]sync setlists across devices.\n\n{cue: PDF & Print Options}\nPrint Song prints just this [C]chart.\nBatch Export prints all [D]songs with automatic page breaks.\nDownload Folder downloads a [.zip] of individual PDFs.`
       }
     ];
 
@@ -331,7 +331,7 @@
       setlist.push({
         id: newId,
         title: "New Song",
-        content: `{title: New Song}\n{key: E}\n{cue: Bass VI Cues: Standard E}\n\n[E]Type lyrics and [A]chords here.`
+        content: `{title: New Song}\n{key: G}\n{cue: Performance Cues: Key, tempo, or arrangement notes}\n\n[G]Type lyrics and [C]chords here.`
       });
       selectSong(newId);
       save();
