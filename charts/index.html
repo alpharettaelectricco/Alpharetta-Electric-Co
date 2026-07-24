@@ -242,7 +242,7 @@
   <div class="app-container">
     <div class="sidebar">
       <div class="brand-header">
-        <h1>Alpharetta Electric Co.</h1>
+        <h1>Alpharetta Electric</h1>
         <span>Chart Engine</span>
       </div>
 
@@ -281,13 +281,13 @@
     const scale = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
     const flatMap = { "Db":"C#", "Eb":"D#", "Gb":"F#", "Ab":"G#", "Bb":"A#" };
 
-    let setlist = JSON.parse(localStorage.getItem('aec_setlist')) || [
-      {
-        id: "1",
-        title: "Chart Maker Guide",
-        content: `{title: How To Use Chart Maker}\n{key: G}\n{cue: Performance Cues: Add structural notes, Capo positions, or pedal triggers}\n\n[G]Place chords in brackets inline with your [C]lyrics.\nThey automatically render [D]directly above the word.\n\n{cue: Key Transposition}\nUse the [-1] and [+1] buttons in the top toolbar.\nIt shifts every [Em]chord and updates the [C]header key live.\n\n{cue: Saving & Backups}\nAll your [G]charts save automatically in your browser.\nUse Export/Import Backup to save or [D]sync setlists across devices.\n\n{cue: PDF & Print Options}\nPrint Song prints just this [C]chart.\nBatch Export prints all [D]songs with automatic page breaks.\nDownload Folder downloads a [.zip] of individual PDFs.`
-      }
-    ];
+    const defaultGuideSong = {
+      id: "1",
+      title: "Chart Maker Guide",
+      content: `{title: How To Use Chart Maker}\n{key: G}\n{cue: Performance Cues: Add structural notes, Capo positions, or pedal triggers}\n\n[G]Place chords in brackets inline with your [C]lyrics.\nThey automatically render [D]directly above the word.\n\n{cue: Key Transposition}\nUse the [-1] and [+1] buttons in the top toolbar.\nIt shifts every [Em]chord and updates the [C]header key live.\n\n{cue: Saving & Backups}\nAll your [G]charts save automatically in your browser.\nUse Export/Import Backup to save or [D]sync setlists across devices.\n\n{cue: PDF & Print Options}\nPrint Song prints just this [C]chart.\nBatch Export prints all [D]songs with automatic page breaks.\nDownload Folder downloads a [.zip] of individual PDFs.`
+    };
+
+    let setlist = JSON.parse(localStorage.getItem('aec_setlist')) || [ defaultGuideSong ];
 
     let currentSongId = setlist[0].id;
 
@@ -338,9 +338,17 @@
     }
 
     function deleteSong(id) {
-      if (setlist.length <= 1) return alert("Your setlist must contain at least one chart.");
       setlist = setlist.filter(s => s.id !== id);
-      if (currentSongId === id) currentSongId = setlist[0].id;
+      
+      // If all songs are deleted, reset setlist back to the guide chart
+      if (setlist.length === 0) {
+        setlist = [ defaultGuideSong ];
+      }
+      
+      if (!setlist.find(s => s.id === currentSongId)) {
+        currentSongId = setlist[0].id;
+      }
+
       save();
       selectSong(currentSongId);
     }
