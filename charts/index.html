@@ -220,6 +220,12 @@
     .chord-mark { font-weight: 800; font-size: 11pt; color: #b45309; height: 1.1em; line-height: 1.1; font-family: monospace; }
     .lyric-text { font-size: 11pt; font-weight: 500; color: #111827; white-space: pre; line-height: 1; }
 
+    /* Table of Contents Formatting */
+    .toc-container { display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
+    .toc-row { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px dotted #ccc; padding-bottom: 6px; font-size: 12pt; }
+    .toc-title { font-weight: 600; color: var(--ink); }
+    .toc-meta { font-weight: 700; color: #b45309; font-family: monospace; font-size: 11pt; }
+
     /* Print Override */
     @media print {
       body { background: white; color: black; height: auto; overflow: visible; }
@@ -284,7 +290,7 @@
     const defaultGuideSong = {
       id: "1",
       title: "Chart Maker Guide",
-      content: `{title: How To Use Chart Maker}\n{key: G}\n{cue: Performance Cues: Add structural notes, Capo positions, or pedal triggers}\n\n[G]Place chords in brackets inline with your [C]lyrics.\nThey automatically render [D]directly above the word.\n\n{cue: Key Transposition}\nUse the [-1] and [+1] buttons in the top toolbar.\nIt shifts every [Em]chord and updates the [C]header key live.\n\n{cue: Saving & Backups}\nAll your [G]charts save automatically in your browser.\nUse Export/Import Backup to save or [D]sync setlists across devices.\n\n{cue: PDF & Print Options}\nPrint Song prints just this [C]chart.\nBatch Export prints all [D]songs with automatic page breaks.\nDownload Folder downloads a [.zip] of individual PDFs.`
+      content: `{title: How To Use Chart Maker}\n{key: G}\n{cue: Performance Cues: Add structural notes, Capo positions, or pedal triggers}\n\n[G]Place chords in brackets inline with your [C]lyrics.\nThey automatically render [D]directly above the word.\n\n{cue: Key Transposition}\nUse the [-1] and [+1] buttons in the top toolbar.\nIt shifts every [Em]chord and updates the [C]header key live.\n\n{cue: Saving & Backups}\nAll your [G]charts save automatically in your browser.\nUse Export/Import Backup to save or [D]sync setlists across devices.\n\n{cue: PDF & Print Options}\nPrint Song prints just this [C]chart.\nBatch Export prints all [D]songs with an automatic Table of Contents cover page.\nDownload Folder downloads a [.zip] of individual PDFs.`
     };
 
     let setlist = JSON.parse(localStorage.getItem('aec_setlist')) || [ defaultGuideSong ];
@@ -340,7 +346,6 @@
     function deleteSong(id) {
       setlist = setlist.filter(s => s.id !== id);
       
-      // If all songs are deleted, reset setlist back to the guide chart
       if (setlist.length === 0) {
         setlist = [ defaultGuideSong ];
       }
@@ -419,6 +424,38 @@
       `;
     }
 
+    function generateTocHtml() {
+      let rowsHtml = "";
+      setlist.forEach((song, idx) => {
+        const titleMatch = song.content.match(/\{title:\s*(.*?)\}/i);
+        const keyMatch = song.content.match(/\{key:\s*(.*?)\}/i);
+        
+        const title = titleMatch ? titleMatch[1] : (song.title || "Untitled");
+        const key = keyMatch ? keyMatch[1] : "";
+
+        rowsHtml += `
+          <div class="toc-row">
+            <span class="toc-title">${idx + 1}. ${title}</span>
+            <span class="toc-meta">${key ? 'KEY: ' + key : ''}</span>
+          </div>
+        `;
+      });
+
+      return `
+        <div class="paper">
+          <div class="sheet-header">
+            <div class="sheet-title">Setlist Index</div>
+            <div class="sheet-meta">${setlist.length} SONGS</div>
+          </div>
+          <div class="sheet-body">
+            <div class="toc-container">
+              ${rowsHtml}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
     function renderSheet() {
       previewWindow.innerHTML = generateSongHtml(editor.value);
     }
@@ -429,7 +466,12 @@
     }
 
     function printAllSongs() {
-      previewWindow.innerHTML = setlist.map(song => generateSongHtml(song.content)).join('');
+      // Prepend Table of Contents page followed by all songs
+      const tocHtml = generateTocHtml();
+      const songsHtml = setlist.map(song => generateSongHtml(song.content)).join('');
+      
+      previewWindow.innerHTML = tocHtml + songsHtml;
+      
       setTimeout(() => {
         window.print();
         renderSheet();
