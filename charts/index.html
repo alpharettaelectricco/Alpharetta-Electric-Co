@@ -196,8 +196,7 @@
       line-height: 1.6; 
     }
 
-        /* Preview Window */
-    .preview-window { 
+       .preview-window { 
       flex: 1; 
       background: #0f0f10; 
       padding: 30px; 
@@ -213,19 +212,25 @@
       color: var(--ink); 
       width: 8.5in; 
       max-width: 100%;
-      /* Height auto lets the paper container stretch smoothly for long lyrics */
-      height: auto; 
+      height: auto !important; /* Force fluid height */
       min-height: 11in; 
       padding: 0.6in; 
       box-shadow: 0 12px 35px rgba(0,0,0,0.6); 
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
       display: flex; 
       flex-direction: column; 
+      flex-shrink: 0 !important; /* Prevents paper from shrinking on long text */
       page-break-after: always;
       margin-bottom: 40px;
-      /* Ensures text never spills into dark background */
-      overflow: visible; 
     }
+
+    .sheet-body { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 12px; 
+      flex: 1 0 auto !important; /* Prevents lyrics container from collapsing */
+    }
+
 
 
     /* Chart Elements */
