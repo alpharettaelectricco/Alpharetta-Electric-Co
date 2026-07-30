@@ -778,7 +778,7 @@
 
       // If there's only 1 song, ask the user if they want a TOC page anyway
       if (setlist.length === 1) {
-        includeToc = confirm("There is only 1 song in the setlist. Do you want to include a Table of Contents page?");
+        includeToc = confirm("There is only 1 song in the setlist. Press Cancel to print without a Table of Contents, or OK to include a TOC page.");
       }
 
       const tocHtml = includeToc ? generateTocHtml() : '';
