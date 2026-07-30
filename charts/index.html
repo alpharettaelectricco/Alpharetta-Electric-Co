@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alpharetta Electric Co. | Chart Maker</title>
-  
+
   <!-- PDF & Zip CDN Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -21,29 +22,38 @@
       --ink: #1c1917;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { 
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-      background: var(--bg); 
-      color: #e4e4e7; 
-      height: 100vh; 
-      overflow: hidden; 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    .app-container { display: flex; height: 100vh; flex-direction: row; }
-    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: #e4e4e7;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .app-container {
+      display: flex;
+      height: 100vh;
+      flex-direction: row;
+    }
+
     /* Sidebar */
-    .sidebar { 
-      width: 280px; 
-      background: #121214; 
-      border-right: 1px solid var(--panel-border); 
-      display: flex; 
-      flex-direction: column; 
-      padding: 20px; 
+    .sidebar {
+      width: 280px;
+      background: #121214;
+      border-right: 1px solid var(--panel-border);
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
       transition: transform 0.25s ease;
       z-index: 100;
     }
-    
+
     .brand-header {
       border-bottom: 2px solid var(--kraft);
       padding-bottom: 12px;
@@ -67,98 +77,153 @@
       margin-top: 2px;
     }
 
-    .sidebar h2 { 
-      font-size: 0.8rem; 
-      margin-bottom: 10px; 
-      color: var(--text-muted); 
-      text-transform: uppercase; 
-      letter-spacing: 1px; 
+    .sidebar h2 {
+      font-size: 0.8rem;
+      margin-bottom: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
-    .song-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
-    
-    .song-item { 
-      padding: 8px 10px; 
-      background: var(--panel); 
-      border: 1px solid var(--panel-border); 
-      border-radius: 4px; 
-      cursor: pointer; 
-      font-size: 0.9rem; 
-      display: flex; 
-      justify-content: space-between; 
+    .song-list {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .song-item {
+      padding: 8px 10px;
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: flex;
+      justify-content: space-between;
       align-items: center;
       transition: all 0.15s ease;
       gap: 6px;
     }
 
-    .song-item:hover { border-color: var(--kraft); }
+    .song-item:hover {
+      border-color: var(--kraft);
+    }
 
-    .song-item.active { 
-      border-color: var(--kraft); 
+    .song-item.active {
+      border-color: var(--kraft);
       background: #2a2a2e;
-      font-weight: 600; 
+      font-weight: 600;
       color: #fff;
     }
 
-    .song-title-text { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .song-title-text {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
-    .reorder-btns { display: flex; gap: 2px; }
-    .order-btn { 
-      background: none; 
-      border: none; 
-      color: var(--text-muted); 
-      font-size: 0.75rem; 
-      padding: 2px 4px; 
-      cursor: pointer; 
+    .reorder-btns {
+      display: flex;
+      gap: 2px;
+    }
+
+    .order-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      padding: 2px 4px;
+      cursor: pointer;
       opacity: 0.6;
     }
-    .order-btn:hover { opacity: 1; color: var(--kraft); background: none; }
-    .order-btn:disabled { opacity: 0.15; cursor: default; }
 
-    .delete-btn { color: #ef4444; background: none; border: none; cursor: pointer; font-size: 1.1rem; padding: 2px 6px; opacity: 0.6; }
-    .delete-btn:hover { opacity: 1; background: none; }
+    .order-btn:hover {
+      opacity: 1;
+      color: var(--kraft);
+      background: none;
+    }
+
+    .order-btn:disabled {
+      opacity: 0.15;
+      cursor: default;
+    }
+
+    .delete-btn {
+      color: #ef4444;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 2px 6px;
+      opacity: 0.6;
+    }
+
+    .delete-btn:hover {
+      opacity: 1;
+      background: none;
+    }
 
     /* Workspace */
-    .workspace { flex: 1; display: flex; flex-direction: column; width: 100%; overflow: hidden; }
-    
-    .toolbar { 
-      min-height: 56px; 
-      background: var(--panel); 
-      border-bottom: 1px solid var(--panel-border); 
-      display: flex; 
-      align-items: center; 
-      justify-content: space-between; 
-      padding: 8px 16px; 
+    .workspace {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .toolbar {
+      min-height: 56px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--panel-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px;
       gap: 10px;
       overflow-x: auto;
     }
 
-    .btn-group { display: flex; gap: 8px; align-items: center; font-size: 0.85rem; color: var(--text-muted); flex-shrink: 0; }
-    
-    button { 
-      background: #2a2a2e; 
-      color: #fff; 
-      border: 1px solid var(--panel-border); 
-      padding: 8px 12px; 
-      border-radius: 4px; 
-      cursor: pointer; 
-      font-size: 0.85rem; 
-      font-weight: 500; 
+    .btn-group {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    button {
+      background: #2a2a2e;
+      color: #fff;
+      border: 1px solid var(--panel-border);
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 500;
       transition: background 0.15s ease;
       white-space: nowrap;
     }
 
-    button:hover { background: #3f3f46; }
+    button:hover {
+      background: #3f3f46;
+    }
 
-    button.primary { 
-      background: var(--kraft); 
-      color: var(--ink); 
-      border: none; 
-      font-weight: 700; 
+    button.primary {
+      background: var(--kraft);
+      color: var(--ink);
+      border: none;
+      font-weight: 700;
       letter-spacing: 0.5px;
     }
 
-    button.primary:hover { background: #c69263; }
+    button.primary:hover {
+      background: #c69263;
+    }
 
     /* Mobile Tab Controls */
     .mobile-tab-bar {
@@ -180,114 +245,190 @@
       font-weight: 700;
     }
 
-    .editor-container { flex: 1; display: flex; overflow: hidden; position: relative; }
-    
-    textarea { 
-      width: 45%; 
-      background: #141416; 
-      color: #f4f4f5; 
-      border: none; 
-      border-right: 1px solid var(--panel-border); 
-      padding: 20px; 
-      font-family: 'Courier New', Courier, monospace; 
-      font-size: 0.95rem; 
-      resize: none; 
-      outline: none; 
-      line-height: 1.6; 
+    .editor-container {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      position: relative;
     }
 
-       .preview-window { 
-      flex: 1; 
-      background: #0f0f10; 
-      padding: 30px; 
-      overflow-y: auto; 
-      display: flex; 
+    textarea {
+      width: 45%;
+      background: #141416;
+      color: #f4f4f5;
+      border: none;
+      border-right: 1px solid var(--panel-border);
+      padding: 20px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.95rem;
+      resize: none;
+      outline: none;
+      line-height: 1.6;
+    }
+
+    .preview-window {
+      flex: 1;
+      background: #0f0f10;
+      padding: 30px;
+      overflow-y: auto;
+      display: flex;
       flex-direction: column;
       align-items: center;
       gap: 30px;
     }
 
-    .paper { 
-      background: #ffffff; 
-      color: var(--ink); 
-      width: 8.5in; 
+    .paper {
+      background: #ffffff;
+      color: var(--ink);
+      width: 8.5in;
       max-width: 100%;
-      height: auto !important; /* Force fluid height */
-      min-height: 11in; 
-      padding: 0.6in; 
-      box-shadow: 0 12px 35px rgba(0,0,0,0.6); 
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-      display: flex; 
-      flex-direction: column; 
-      flex-shrink: 0 !important; /* Prevents paper from shrinking on long text */
+      height: auto !important;
+      /* Force fluid height */
+      min-height: 11in;
+      padding: 0.6in;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0 !important;
+      /* Prevents paper from shrinking on long text */
       page-break-after: always;
       margin-bottom: 40px;
     }
 
-    .sheet-body { 
-      display: flex; 
-      flex-direction: column; 
-      gap: 12px; 
-      flex: 1 0 auto !important; /* Prevents lyrics container from collapsing */
+    .sheet-body {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1 0 auto !important;
+      /* Prevents lyrics container from collapsing */
     }
 
 
 
     /* Chart Elements */
-    .sheet-header { 
-      border-bottom: 2px solid var(--ink); 
-      padding-bottom: 8px; 
-      margin-bottom: 16px; 
-      display: flex; 
-      justify-content: space-between; 
-      align-items: flex-end; 
+    .sheet-header {
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
     }
 
-    .sheet-title { 
-      font-family: Georgia, serif; 
-      font-size: 20pt; 
-      font-weight: 700; 
-      text-transform: uppercase; 
+    .sheet-title {
+      font-family: Georgia, serif;
+      font-size: 20pt;
+      font-weight: 700;
+      text-transform: uppercase;
       letter-spacing: 0.5px;
-      line-height: 1; 
+      line-height: 1;
     }
 
-    .sheet-meta { font-size: 10pt; text-align: right; font-weight: 700; color: #444; letter-spacing: 1px; }
-    
-    .cue-box { 
-      background: var(--kraft-light); 
-      border-left: 4px solid var(--kraft); 
+    .sheet-meta {
+      font-size: 10pt;
+      text-align: right;
+      font-weight: 700;
+      color: #444;
+      letter-spacing: 1px;
+    }
+
+    .cue-box {
+      background: var(--kraft-light);
+      border-left: 4px solid var(--kraft);
       color: #432818;
-      padding: 8px 12px; 
-      font-size: 9.5pt; 
-      font-weight: 700; 
-      margin-bottom: 16px; 
-      text-transform: uppercase; 
-      letter-spacing: 0.5px; 
+      padding: 8px 12px;
+      font-size: 9.5pt;
+      font-weight: 700;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
-    .sheet-body { display: flex; flex-direction: column; gap: 12px; flex: 1; }
-    .song-line { display: flex; flex-wrap: wrap; row-gap: 1.2em; column-gap: 0; line-height: 1; margin-bottom: 4px; }
-    .chord-pair { display: inline-flex; flex-direction: column; justify-content: flex-end; position: relative; padding-right: 0.25em; }
-    .chord-mark { font-weight: 800; font-size: 11pt; color: #b45309; height: 1.1em; line-height: 1.1; font-family: monospace; }
-    .lyric-text { font-size: 11pt; font-weight: 500; color: #111827; white-space: pre; line-height: 1; }
+    .sheet-body {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .song-line {
+      display: flex;
+      flex-wrap: wrap;
+      row-gap: 1.2em;
+      column-gap: 0;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .chord-pair {
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      position: relative;
+      padding-right: 0.25em;
+    }
+
+    .chord-mark {
+      font-weight: 800;
+      font-size: 11pt;
+      color: #b45309;
+      height: 1.1em;
+      line-height: 1.1;
+      font-family: monospace;
+    }
+
+    .lyric-text {
+      font-size: 11pt;
+      font-weight: 500;
+      color: #111827;
+      white-space: pre;
+      line-height: 1;
+    }
 
     /* Table of Contents Formatting */
-    .toc-container { display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
-    .toc-row { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px dotted #ccc; padding-bottom: 6px; font-size: 12pt; }
-    .toc-title { font-weight: 600; color: var(--ink); }
-    .toc-meta { font-weight: 700; color: #b45309; font-family: monospace; font-size: 11pt; }
+    .toc-container {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .toc-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px dotted #ccc;
+      padding-bottom: 6px;
+      font-size: 12pt;
+    }
+
+    .toc-title {
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .toc-meta {
+      font-weight: 700;
+      color: #b45309;
+      font-family: monospace;
+      font-size: 11pt;
+    }
 
     /* Mobile Breakpoints */
     @media (max-width: 850px) {
-      .app-container { flex-direction: column; }
-      
+      .app-container {
+        flex-direction: column;
+      }
+
       .sidebar {
         position: fixed;
-        top: 0; left: 0; bottom: 0;
+        top: 0;
+        left: 0;
+        bottom: 0;
         width: 280px;
         transform: translateX(-100%);
-        box-shadow: 4px 0 20px rgba(0,0,0,0.5);
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
       }
 
       .sidebar.open {
@@ -325,26 +466,53 @@
         box-shadow: none;
       }
 
-      .sheet-title { font-size: 16pt; }
+      .sheet-title {
+        font-size: 16pt;
+      }
     }
 
     /* Print Override */
     @media print {
-      body { background: white; color: black; height: auto; overflow: visible; }
-      .sidebar, .toolbar, .mobile-tab-bar, textarea { display: none !important; }
-      .app-container, .workspace, .editor-container, .preview-window { display: block !important; padding: 0 !important; background: white !important; }
-      .paper { 
-        width: 100% !important; 
-        min-height: 0 !important; 
-        box-shadow: none !important; 
-        padding: 0 !important; 
-        page-break-after: always !important; 
+      body {
+        background: white;
+        color: black;
+        height: auto;
+        overflow: visible;
+      }
+
+      .sidebar,
+      .toolbar,
+      .mobile-tab-bar,
+      textarea {
+        display: none !important;
+      }
+
+      .app-container,
+      .workspace,
+      .editor-container,
+      .preview-window {
+        display: block !important;
+        padding: 0 !important;
+        background: white !important;
+      }
+
+      .paper {
+        width: 100% !important;
+        min-height: 0 !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        page-break-after: always !important;
         break-after: page !important;
       }
-      @page { size: letter; margin: 0.5in; }
+
+      @page {
+        size: letter;
+        margin: 0.5in;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <div class="app-container">
@@ -394,7 +562,7 @@
 
   <script>
     const scale = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
-    const flatMap = { "Db":"C#", "Eb":"D#", "Gb":"F#", "Ab":"G#", "Bb":"A#" };
+    const flatMap = { "Db": "C#", "Eb": "D#", "Gb": "F#", "Ab": "G#", "Bb": "A#" };
 
     const defaultGuideSong = {
       id: "1",
@@ -402,7 +570,7 @@
       content: `{title: How To Use Chart Maker}\n{key: G}\n{cue: Performance Cues: Add structural notes, Capo positions, or pedal triggers}\n\n[G]Place chords in brackets inline with your [C]lyrics.\nThey automatically render [D]directly above the word.\n\n{cue: Key Transposition}\nUse the [-1] and [+1] buttons in the top toolbar.\nIt shifts every [Em]chord and updates the [C]header key live.\n\n{cue: Song Example: Amazing Grace}\n[G] Amazing grace, how [C]sweet the [G]sound\nThat saved a wretch like [D]me!\nI [G]once was lost, but [C]now am [G]found;\nWas blind, but [D]now I [G]see.\n\n{cue: PDF & Print Options}\nPrint Song prints just this [C]chart.\nBatch Export prints all [D]songs with an automatic Table of Contents cover page.\nDownload Folder downloads a [.zip] of individual PDFs.`
     };
 
-    let setlist = JSON.parse(localStorage.getItem('aec_setlist')) || [ defaultGuideSong ];
+    let setlist = JSON.parse(localStorage.getItem('aec_setlist')) || [defaultGuideSong];
 
     let currentSongId = setlist[0].id;
 
@@ -430,11 +598,11 @@
     function moveSong(index, direction) {
       const targetIndex = index + direction;
       if (targetIndex < 0 || targetIndex >= setlist.length) return;
-      
+
       const temp = setlist[index];
       setlist[index] = setlist[targetIndex];
       setlist[targetIndex] = temp;
-      
+
       save();
       renderSidebar();
     }
@@ -445,7 +613,7 @@
       setlist.forEach((song, idx) => {
         const item = document.createElement('div');
         item.className = `song-item ${song.id === currentSongId ? 'active' : ''}`;
-        
+
         const titleMatch = song.content.match(/\{title:\s*(.*?)\}/i);
         const displayTitle = titleMatch ? titleMatch[1] : (song.title || "Untitled");
 
@@ -485,11 +653,11 @@
 
     function deleteSong(id) {
       setlist = setlist.filter(s => s.id !== id);
-      
+
       if (setlist.length === 0) {
-        setlist = [ defaultGuideSong ];
+        setlist = [defaultGuideSong];
       }
-      
+
       if (!setlist.find(s => s.id === currentSongId)) {
         currentSongId = setlist[0].id;
       }
@@ -569,7 +737,7 @@
       setlist.forEach((song, idx) => {
         const titleMatch = song.content.match(/\{title:\s*(.*?)\}/i);
         const keyMatch = song.content.match(/\{key:\s*(.*?)\}/i);
-        
+
         const title = titleMatch ? titleMatch[1] : (song.title || "Untitled");
         const key = keyMatch ? keyMatch[1] : "";
 
@@ -606,35 +774,43 @@
     }
 
     function printAllSongs() {
-      const tocHtml = generateTocHtml();
+      let includeToc = setlist.length > 1;
+
+      // If there's only 1 song, ask the user if they want a TOC page anyway
+      if (setlist.length === 1) {
+        includeToc = confirm("There is only 1 song in the setlist. Do you want to include a Table of Contents page?");
+      }
+
+      const tocHtml = includeToc ? generateTocHtml() : '';
       const songsHtml = setlist.map(song => generateSongHtml(song.content)).join('');
-      
+
       previewWindow.innerHTML = tocHtml + songsHtml;
-      
+
       setTimeout(() => {
         window.print();
         renderSheet();
       }, 100);
     }
 
+
     async function downloadPdfZip() {
       const zip = new JSZip();
       const folder = zip.folder("AEC_Setlist_PDFs");
-      
+
       for (let song of setlist) {
         previewWindow.innerHTML = generateSongHtml(song.content);
         const element = previewWindow.querySelector('.paper');
-        
+
         const titleMatch = song.content.match(/\{title:\s*(.*?)\}/i);
         const safeTitle = (titleMatch ? titleMatch[1] : song.title || "Untitled")
           .replace(/[^a-z0-9]/gi, '_').toLowerCase();
 
         const opt = {
-          margin:       0.5,
-          filename:     `${safeTitle}.pdf`,
-          image:        { type: 'jpeg', quality: 0.98 },
-          html2canvas:  { scale: 2 },
-          jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+          margin: 0.5,
+          filename: `${safeTitle}.pdf`,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
         };
 
         const pdfBlob = await html2pdf().set(opt).from(element).output('blob');
@@ -666,7 +842,7 @@
       let text = editor.value;
       text = text.replace(/\[(.*?)\]/g, (_, chord) => `[${shiftChord(chord, semitones)}]`);
       text = text.replace(/(\{key:\s*)(.*?)\}/gi, (_, prefix, key) => `${prefix}${shiftChord(key, semitones)}`);
-      
+
       editor.value = text;
       const current = setlist.find(s => s.id === currentSongId);
       if (current) current.content = text;
@@ -693,7 +869,7 @@
       if (!file) return;
 
       const reader = new FileReader();
-      reader.onload = function(e) {
+      reader.onload = function (e) {
         try {
           const importedSetlist = JSON.parse(e.target.result);
           if (Array.isArray(importedSetlist) && importedSetlist.length > 0) {
@@ -726,4 +902,5 @@
     selectSong(currentSongId);
   </script>
 </body>
+
 </html>
