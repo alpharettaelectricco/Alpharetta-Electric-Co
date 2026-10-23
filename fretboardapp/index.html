@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fretboard Trainer</title>
+  <style>
+    :root {
+      --bg-dark: #0f141c;
+      --panel-bg: #18202c;
+      --panel-border: #293548;
+      --accent: #38bdf8;
+      --accent-hover: #0284c7;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --correct: #22c55e;
+      --incorrect: #ef4444;
+      --wood-color: #2b241e;
+      --fret-wire: #cbd5e1;
+      --nut-color: #f1f5f9;
+      --marker-color: rgba(255, 255, 255, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: var(--panel-bg);
+      border-bottom: 1px solid var(--panel-border);
+      padding: 1rem 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .controls-grid {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .control-group {
+      display: flex;
+      align-items: center;
+      background: #090d13;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      border: 1px solid var(--panel-border);
+    }
+
+    .control-group label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-right: 0.5rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    select, button {
+      background: var(--panel-bg);
+      color: var(--text);
+      border: 1px solid var(--panel-border);
+      border-radius: 4px;
+      padding: 0.35rem 0.65rem;
+      font-size: 0.85rem;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    select:hover, button:hover {
+      border-color: var(--accent);
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      max-width: 1600px;
+      margin: 0 auto;
+      width: 100%;
+      gap: 1rem;
+    }
+
+    .dashboard {
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 72px;
+      gap: 1rem;
+    }
+
+    .prompt-area {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .prompt-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .prompt-text {
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+
+    .score-stats {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .stat-val {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    /* Note Input Pad (Reverse Quiz) */
+    .note-pad-wrapper {
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 8px;
+      padding: 0.75rem;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .note-pad {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(34px, 1fr));
+      gap: 0.5rem;
+      width: 100%;
+      max-width: 750px;
+    }
+
+    .note-pad button {
+      padding: 0.6rem 0;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    /* Fretboard Viewport */
+    .neck-outer {
+      background: #090d13;
+      border: 1px solid var(--panel-border);
+      border-radius: 8px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 1.5rem 1rem;
+      box-shadow: inset 0 4px 16px rgba(0, 0, 0, 0.6);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    #neck-svg {
+      display: block;
+      min-width: 1600px;
+    }
+
+    .fret-click-target {
+      fill: transparent;
+      cursor: pointer;
+    }
+    .fret-click-target:hover {
+      fill: rgba(56, 189, 248, 0.15);
+    }
+
+    .note-dot {
+      transition: r 0.15s ease-out;
+      pointer-events: none;
+    }
+
+    .note-dot-text {
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 700;
+      fill: #ffffff;
+      text-anchor: middle;
+      dominant-baseline: central;
+      pointer-events: none;
+    }
+
+    .fret-num-text {
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 600;
+      fill: var(--text-muted);
+      text-anchor: middle;
+      dominant-baseline: central;
+    }
+
+    .tuning-text {
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      fill: var(--accent);
+      text-anchor: middle;
+      dominant-baseline: central;
+    }
+
+    @media (max-width: 768px) {
+      .note-pad {
+        grid-template-columns: repeat(6, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🎸 FretTrainer Pro</h1>
+    <div class="controls-grid">
+      <div class="control-group">
+        <label for="mode-select">Mode</label>
+        <select id="mode-select">
+          <option value="explore">Explore Mode</option>
+          <option value="target">Target Note Mode</option>
+          <option value="reverse">Reverse Quiz Mode</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label for="instrument-select">Instrument</label>
+        <select id="instrument-select">
+          <option value="guitar6">6-String Guitar (EADGBE)</option>
+          <option value="bass4">4-String Bass (EADG)</option>
+          <option value="bass5">5-String Bass (BEADG)</option>
+        </select>
+      </div>
+
+      <div class="control-group" id="root-group">
+        <label for="root-select">Root</label>
+        <select id="root-select"></select>
+      </div>
+
+      <button id="reset-btn">Reset Stats</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="dashboard">
+      <div class="prompt-area">
+        <span class="prompt-title" id="status-title">Mode: Explore</span>
+        <span class="prompt-text" id="status-desc">Click any fret or string to play and explore</span>
+      </div>
+      <div class="score-stats" id="score-box" style="display: none;">
+        <div>Streak: <span class="stat-val" id="streak-count">0</span></div>
+        <div>Accuracy: <span class="stat-val" id="accuracy-val">100%</span></div>
+      </div>
+    </div>
+
+    <!-- On-screen Note Pad for Reverse Quiz Mode -->
+    <div class="note-pad-wrapper" id="note-pad-wrapper">
+      <div class="note-pad" id="note-pad"></div>
+    </div>
+
+    <!-- Scrollable Neck Container -->
+    <div class="neck-outer">
+      <svg id="neck-svg" width="1600" height="240" viewBox="0 0 1600 240"></svg>
+    </div>
+  </main>
+
+  <script>
+    const NOTE_NAMES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+    const INTERVAL_NAMES = ["R", "m2", "M2", "m3", "M3", "P4", "TT", "P5", "m6", "M6", "m7", "M7"];
+
+    // Tunings ordered highest string (top) to lowest string (bottom)
+    const INSTRUMENTS = {
+      guitar6: {
+        name: "6-String Guitar",
+        tunings: [64, 59, 55, 50, 45, 40], // E4, B3, G3, D3, A2, E2
+        stringNames: ["E", "B", "G", "D", "A", "E"],
+        gauges: [1.2, 1.5, 2.0, 2.6, 3.2, 4.0]
+      },
+      bass4: {
+        name: "4-String Bass",
+        tunings: [43, 38, 33, 28], // G2, D2, A1, E1
+        stringNames: ["G", "D", "A", "E"],
+        gauges: [1.8, 2.6, 3.6, 4.8]
+      },
+      bass5: {
+        name: "5-String Bass",
+        tunings: [43, 38, 33, 28, 23], // G2, D2, A1, E1, B0
+        stringNames: ["G", "D", "A", "E", "B"],
+        gauges: [1.8, 2.6, 3.6, 4.8, 5.8]
+      }
+    };
+
+    const TOTAL_FRETS = 24;
+    const SINGLE_MARKERS = [3, 5, 7, 9, 15, 17, 19, 21];
+    const DOUBLE_MARKERS = [12, 24];
+
+    // Math & Audio Helpers
+    function midiToPitch(midi) {
+      const noteName = NOTE_NAMES[midi % 12];
+      const octave = Math.floor(midi / 12) - 1;
+      return { noteName, octave, pitchClass: midi % 12 };
+    }
+
+    function midiToFreq(midi) {
+      return 440 * Math.pow(2, (midi - 69) / 12);
+    }
+
+    let audioCtx = null;
+    function playPluck(midi) {
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        const filter = audioCtx.createBiquadFilter();
+
+        const freq = midiToFreq(midi);
+        osc.type = "sawtooth";
+        osc.frequency.setValueAtTime(freq, now);
+
+        filter.type = "lowpass";
+        filter.frequency.setValueAtTime(Math.min(freq * 6, 7500), now);
+        filter.frequency.exponentialRampToValueAtTime(Math.max(freq * 1.5, 150), now + 1.2);
+
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.exponentialRampToValueAtTime(0.3, now + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.4);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start(now);
+        osc.stop(now + 1.45);
+      } catch (e) {
+        console.warn("Audio Context init pending user interaction", e);
+      }
+    }
+
+    // App State
+    const state = {
+      instrument: "guitar6",
+      mode: "explore",
+      rootPitchClass: 0,
+      stats: { total: 0, correct: 0, streak: 0 },
+      activeTarget: null,
+      markerMap: new Map()
+    };
+
+    // DOM Elements
+    const svg = document.getElementById("neck-svg");
+    const modeSelect = document.getElementById("mode-select");
+    const instrumentSelect = document.getElementById("instrument-select");
+    const rootSelect = document.getElementById("root-select");
+    const resetBtn = document.getElementById("reset-btn");
+    const statusTitle = document.getElementById("status-title");
+    const statusDesc = document.getElementById("status-desc");
+    const scoreBox = document.getElementById("score-box");
+    const streakCount = document.getElementById("streak-count");
+    const accuracyVal = document.getElementById("accuracy-val");
+    const notePadWrapper = document.getElementById("note-pad-wrapper");
+    const notePad = document.getElementById("note-pad");
+
+    // Populate Root Select and Note Pad
+    NOTE_NAMES.forEach((name, i) => {
+      const opt = document.createElement("option");
+      opt.value = i;
+      opt.textContent = name;
+      rootSelect.appendChild(opt);
+
+      const btn = document.createElement("button");
+      btn.textContent = name;
+      btn.dataset.pitchClass = i;
+      btn.addEventListener("click", () => handleNotePadClick(i));
+      notePad.appendChild(btn);
+    });
+
+    function createSVGElement(tag, attrs = {}) {
+      const el = document.createElementNS("http://www.w3.org/2000/svg", tag);
+      for (const [key, val] of Object.entries(attrs)) {
+        el.setAttribute(key, val);
+      }
+      return el;
+    }
+
+    /**
+     * Fretboard Generation
+     */
+    function renderFretboard() {
+      const inst = INSTRUMENTS[state.instrument];
+      const numStrings = inst.tunings.length;
+      const neckWidth = 1600;
+      const neckHeight = 240;
+      const topPadding = 32;
+      const playableHeight = neckHeight - topPadding - 32;
+      const stringSpacing = playableHeight / (numStrings - 1);
+      const nutX = 60;
+      const scaleLength = 2000; // Realistic string scale length
+
+      // Logarithmic Fret Positions
+      const fretX = [nutX];
+      for (let f = 1; f <= TOTAL_FRETS; f++) {
+        const dist = scaleLength * (1 - Math.pow(2, -f / 12));
+        fretX.push(nutX + dist);
+      }
+      const boardEndX = fretX[TOTAL_FRETS] + 15;
+
+      svg.setAttribute("width", neckWidth);
+      svg.setAttribute("height", neckHeight);
+      svg.setAttribute("viewBox", `0 0 ${neckWidth} ${neckHeight}`);
+      svg.innerHTML = "";
+      state.markerMap.clear();
+
+      // 1. Fretboard Wood Body
+      svg.appendChild(createSVGElement("rect", {
+        x: nutX,
+        y: topPadding - 10,
+        width: boardEndX - nutX,
+        height: playableHeight + 20,
+        fill: "var(--wood-color)",
+        rx: 4
+      }));
+
+      // 2. Fret Inlay Markers (Pearloid Dots)
+      const centerY = topPadding + playableHeight / 2;
+      for (let f = 1; f <= TOTAL_FRETS; f++) {
+        const midX = (fretX[f - 1] + fretX[f]) / 2;
+
+        if (SINGLE_MARKERS.includes(f)) {
+          svg.appendChild(createSVGElement("circle", {
+            cx: midX,
+            cy: centerY,
+            r: 5.5,
+            fill: "var(--marker-color)"
+          }));
+        } else if (DOUBLE_MARKERS.includes(f)) {
+          svg.appendChild(createSVGElement("circle", {
+            cx: midX,
+            cy: centerY - playableHeight * 0.22,
+            r: 5,
+            fill: "var(--marker-color)"
+          }));
+          svg.appendChild(createSVGElement("circle", {
+            cx: midX,
+            cy: centerY + playableHeight * 0.22,
+            r: 5,
+            fill: "var(--marker-color)"
+          }));
+        }
+
+        // Fret Numbers
+        const numLabel = createSVGElement("text", {
+          x: midX,
+          y: neckHeight - 10,
+          class: "fret-num-text"
+        });
+        numLabel.textContent = f;
+        svg.appendChild(numLabel);
+      }
+
+      // 3. Fret Wires & Nut
+      for (let f = 0; f <= TOTAL_FRETS; f++) {
+        const fx = fretX[f];
+        if (f === 0) {
+          // Bone Nut
+          svg.appendChild(createSVGElement("rect", {
+            x: fx - 6,
+            y: topPadding - 12,
+            width: 8,
+            height: playableHeight + 24,
+            fill: "var(--nut-color)",
+            rx: 2
+          }));
+        } else {
+          // Metal Fret
+          svg.appendChild(createSVGElement("line", {
+            x1: fx,
+            y1: topPadding - 10,
+            x2: fx,
+            y2: topPadding + playableHeight + 10,
+            stroke: "var(--fret-wire)",
+            "stroke-width": 2
+          }));
+        }
+      }
+
+      // 4. Strings & Interactive Nodes
+      const stringY = [];
+      for (let s = 0; s < numStrings; s++) {
+        const sy = topPadding + s * stringSpacing;
+        stringY.push(sy);
+
+        // Open string tuning letter indicator
+        const tuneLabel = createSVGElement("text", {
+          x: 22,
+          y: sy,
+          class: "tuning-text"
+        });
+        tuneLabel.textContent = inst.stringNames[s];
+        svg.appendChild(tuneLabel);
+
+        // String Line
+        svg.appendChild(createSVGElement("line", {
+          x1: nutX - 8,
+          y1: sy,
+          x2: boardEndX,
+          y2: sy,
+          stroke: "#e2e8f0",
+          "stroke-width": inst.gauges[s] || 2,
+          "stroke-linecap": "round",
+          opacity: 0.95
+        }));
+      }
+
+      // 5. Clickable Regions and Marker Elements
+      for (let s = 0; s < numStrings; s++) {
+        const sy = stringY[s];
+        for (let f = 0; f <= TOTAL_FRETS; f++) {
+          let cx, clickX, clickW;
+
+          if (f === 0) {
+            cx = nutX - 22;
+            clickX = 0;
+            clickW = nutX;
+          } else {
+            cx = (fretX[f - 1] + fretX[f]) / 2;
+            clickX = fretX[f - 1];
+            clickW = fretX[f] - fretX[f - 1];
+          }
+
+          // Visual Marker Container
+          const markerGroup = createSVGElement("g", {
+            opacity: 0,
+            style: "pointer-events: none;"
+          });
+
+          const circle = createSVGElement("circle", {
+            cx: cx,
+            cy: sy,
+            r: 11,
+            class: "note-dot",
+            fill: "var(--accent)"
+          });
+
+          const text = createSVGElement("text", {
+            x: cx,
+            y: sy,
+            class: "note-dot-text"
+          });
+
+          markerGroup.appendChild(circle);
+          markerGroup.appendChild(text);
+          svg.appendChild(markerGroup);
+
+          // Click Target Box
+          const hitBox = createSVGElement("rect", {
+            x: clickX,
+            y: sy - stringSpacing / 2,
+            width: clickW,
+            height: stringSpacing,
+            class: "fret-click-target"
+          });
+
+          hitBox.addEventListener("click", () => handleFretClick(s, f));
+          svg.appendChild(hitBox);
+
+          state.markerMap.set(`${s}-${f}`, { group: markerGroup, circle, text });
+        }
+      }
+    }
+
+    function getMidiPitch(stringIdx, fret) {
+      return INSTRUMENTS[state.instrument].tunings[stringIdx] + fret;
+    }
+
+    function hideAllMarkers() {
+      state.markerMap.forEach(m => m.group.setAttribute("opacity", "0"));
+    }
+
+    function highlightFret(stringIdx, fret, textVal, color = "var(--accent)", duration = null) {
+      const marker = state.markerMap.get(`${stringIdx}-${fret}`);
+      if (!marker) return;
+
+      marker.circle.setAttribute("fill", color);
+      marker.text.textContent = textVal;
+      marker.group.setAttribute("opacity", "1");
+
+      if (duration) {
+        setTimeout(() => {
+          marker.group.setAttribute("opacity", "0");
+        }, duration);
+      }
+    }
+
+    function handleFretClick(stringIdx, fret) {
+      const midi = getMidiPitch(stringIdx, fret);
+      const { noteName, octave, pitchClass } = midiToPitch(midi);
+      playPluck(midi);
+
+      if (state.mode === "explore") {
+        hideAllMarkers();
+        const root = parseInt(rootSelect.value);
+        const interval = (pitchClass - root + 12) % 12;
+        const intervalName = INTERVAL_NAMES[interval];
+
+        highlightFret(stringIdx, fret, noteName, "var(--accent)");
+        statusTitle.textContent = "Selected Note";
+        statusDesc.textContent = `${noteName}${octave} (${intervalName} relative to ${NOTE_NAMES[root]}) — String ${stringIdx + 1}, Fret ${fret}`;
+      } else if (state.mode === "target") {
+        if (!state.activeTarget) return;
+
+        let isCorrect = false;
+        if (state.activeTarget.specificString !== null) {
+          isCorrect = (pitchClass === state.activeTarget.pitchClass && stringIdx === state.activeTarget.specificString);
+        } else {
+          isCorrect = (pitchClass === state.activeTarget.pitchClass);
+        }
+
+        recordScore(isCorrect);
+        if (isCorrect) {
+          highlightFret(stringIdx, fret, noteName, "var(--correct)", 800);
+          statusDesc.textContent = `Correct! That is ${noteName}`;
+          setTimeout(nextTargetChallenge, 850);
+        } else {
+          highlightFret(stringIdx, fret, noteName, "var(--incorrect)", 850);
+          statusDesc.textContent = `Incorrect note (${noteName}). Try again!`;
+        }
+      }
+    }
+
+    function handleNotePadClick(clickedPitchClass) {
+      if (state.mode !== "reverse" || !state.activeTarget) return;
+
+      const isCorrect = clickedPitchClass === state.activeTarget.pitchClass;
+      recordScore(isCorrect);
+
+      const target = state.activeTarget;
+      if (isCorrect) {
+        highlightFret(target.string, target.fret, NOTE_NAMES[target.pitchClass], "var(--correct)");
+        statusDesc.textContent = `Correct! It's ${NOTE_NAMES[target.pitchClass]}`;
+        setTimeout(nextReverseChallenge, 850);
+      } else {
+        statusDesc.textContent = `Incorrect! You clicked ${NOTE_NAMES[clickedPitchClass]}. Try again!`;
+      }
+    }
+
+    function recordScore(isCorrect) {
+      state.stats.total++;
+      if (isCorrect) {
+        state.stats.correct++;
+        state.stats.streak++;
+      } else {
+        state.stats.streak = 0;
+      }
+      streakCount.textContent = state.stats.streak;
+      const acc = Math.round((state.stats.correct / state.stats.total) * 100);
+      accuracyVal.textContent = `${acc}%`;
+    }
+
+    function nextTargetChallenge() {
+      hideAllMarkers();
+      const targetPitchClass = Math.floor(Math.random() * 12);
+      const noteName = NOTE_NAMES[targetPitchClass];
+      const inst = INSTRUMENTS[state.instrument];
+
+      const specifyString = Math.random() > 0.5;
+      const stringIdx = specifyString ? Math.floor(Math.random() * inst.tunings.length) : null;
+
+      state.activeTarget = {
+        pitchClass: targetPitchClass,
+        specificString: stringIdx
+      };
+
+      statusTitle.textContent = "Find Note Challenge";
+      if (specifyString) {
+        const sName = inst.stringNames[stringIdx];
+        statusDesc.textContent = `Find "${noteName}" on the ${sName} string (String ${stringIdx + 1})`;
+      } else {
+        statusDesc.textContent = `Find any "${noteName}" across the entire fretboard`;
+      }
+    }
+
+    function nextReverseChallenge() {
+      hideAllMarkers();
+      const inst = INSTRUMENTS[state.instrument];
+      const randomString = Math.floor(Math.random() * inst.tunings.length);
+      const randomFret = Math.floor(Math.random() * (TOTAL_FRETS + 1));
+      const midi = getMidiPitch(randomString, randomFret);
+      const { pitchClass } = midiToPitch(midi);
+
+      state.activeTarget = {
+        string: randomString,
+        fret: randomFret,
+        pitchClass: pitchClass
+      };
+
+      highlightFret(randomString, randomFret, "?", "var(--accent)");
+      statusTitle.textContent = "Reverse Quiz Challenge";
+      statusDesc.textContent = `What note is highlighted at String ${randomString + 1}, Fret ${randomFret}?`;
+    }
+
+    function updateMode() {
+      state.mode = modeSelect.value;
+      hideAllMarkers();
+
+      if (state.mode === "explore") {
+        document.getElementById("root-group").style.display = "flex";
+        scoreBox.style.display = "none";
+        notePadWrapper.style.display = "none";
+        statusTitle.textContent = "Mode: Explore";
+        statusDesc.textContent = "Click any fret or string to play and explore";
+      } else if (state.mode === "target") {
+        document.getElementById("root-group").style.display = "none";
+        scoreBox.style.display = "flex";
+        notePadWrapper.style.display = "none";
+        nextTargetChallenge();
+      } else if (state.mode === "reverse") {
+        document.getElementById("root-group").style.display = "none";
+        scoreBox.style.display = "flex";
+        notePadWrapper.style.display = "flex";
+        nextReverseChallenge();
+      }
+    }
+
+    function resetStats() {
+      state.stats = { total: 0, correct: 0, streak: 0 };
+      streakCount.textContent = "0";
+      accuracyVal.textContent = "100%";
+      if (state.mode === "target") nextTargetChallenge();
+      if (state.mode === "reverse") nextReverseChallenge();
+    }
+
+    // Listeners
+    modeSelect.addEventListener("change", updateMode);
+    instrumentSelect.addEventListener("change", (e) => {
+      state.instrument = e.target.value;
+      renderFretboard();
+      updateMode();
+    });
+    rootSelect.addEventListener("change", (e) => {
+      state.rootPitchClass = parseInt(e.target.value);
+    });
+    resetBtn.addEventListener("click", resetStats);
+
+    // Initial render
+    renderFretboard();
+    updateMode();
+  </script>
+</body>
+</html>
