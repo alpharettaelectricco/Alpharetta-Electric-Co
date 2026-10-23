@@ -4,6 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Fretboard Trainer</title>
+
+  <!-- iOS Standalone App (PWA) Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="FretTrainer">
+  <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f3b8.png">
+
   <style>
     :root {
       --bg-dark: #0f141c;
@@ -418,7 +425,7 @@
     const state = {
       instrument: "guitar6",
       mode: "explore",
-      fretRange: "all", // 'all', 'low', 'high'
+      fretRange: "all",
       rootPitchClass: 0,
       stats: { total: 0, correct: 0, streak: 0 },
       activeTarget: null,
@@ -441,7 +448,7 @@
     const notePadWrapper = document.getElementById("note-pad-wrapper");
     const notePad = document.getElementById("note-pad");
 
-    // Touch Swipe vs Tap Detection
+    // Touch Swipe vs Tap Detection (prevents accidental misclicks when panning)
     let isDragging = false;
     let touchStartX = 0;
     let touchStartY = 0;
@@ -491,9 +498,7 @@
       const inst = INSTRUMENTS[state.instrument];
       const numStrings = inst.tunings.length;
       const { start: startFret, end: endFret } = getStartEndFrets();
-      const numFrets = endFret - startFret;
 
-      // Scale dynamic neck width to ensure minimum finger target width (>=42px) on mobile
       const neckWidth = state.fretRange === "all" ? 2200 : 1200;
       const neckHeight = 240;
       const topPadding = 32;
@@ -501,7 +506,6 @@
       const stringSpacing = playableHeight / (numStrings - 1);
       const startXOffset = 64;
 
-      // Compute logarithmic positions relative to the selected range
       const scaleLength = state.fretRange === "all" ? 2800 : (state.fretRange === "low" ? 1700 : 3400);
       const fretX = {};
       const baseFret = startFret === 0 ? 0 : startFret - 1;
@@ -574,7 +578,6 @@
       for (let f = startFret; f <= endFret; f++) {
         const fx = fretX[f];
         if (f === 0) {
-          // Bone Nut
           svg.appendChild(createSVGElement("rect", {
             x: fx - 6,
             y: topPadding - 12,
@@ -584,7 +587,6 @@
             rx: 2
           }));
         } else {
-          // Fret Wire
           svg.appendChild(createSVGElement("line", {
             x1: fx,
             y1: topPadding - 10,
@@ -602,7 +604,6 @@
         const sy = topPadding + s * stringSpacing;
         stringY.push(sy);
 
-        // String indicator note on left
         const openMidi = inst.tunings[s] + startFret;
         const tuneLabel = createSVGElement("text", {
           x: 24,
@@ -612,7 +613,6 @@
         tuneLabel.textContent = NOTE_NAMES[openMidi % 12];
         svg.appendChild(tuneLabel);
 
-        // String Wire
         svg.appendChild(createSVGElement("line", {
           x1: startFret === 0 ? boardStartX - 8 : boardStartX,
           y1: sy,
@@ -665,7 +665,6 @@
           markerGroup.appendChild(text);
           svg.appendChild(markerGroup);
 
-          // Hit box
           const hitBox = createSVGElement("rect", {
             x: clickX,
             y: sy - stringSpacing / 2,
