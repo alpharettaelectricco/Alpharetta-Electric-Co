@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Fretboard Trainer</title>
 
-  <!-- iOS Standalone App (PWA) Meta Tags .-->
+  <!-- iOS Standalone App (PWA) Meta Tags -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="FretTrainer">
@@ -45,40 +45,44 @@
       display: flex;
       flex-direction: column;
       -webkit-tap-highlight-color: transparent;
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
     }
 
     header {
       background: var(--panel-bg);
       border-bottom: 1px solid var(--panel-border);
-      padding: 0.75rem 1.25rem;
+      padding: 0.5rem 1rem;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.5rem;
     }
 
     h1 {
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 700;
       color: var(--accent);
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.4rem;
     }
 
     .controls-grid {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.4rem;
     }
 
     .control-group {
       display: flex;
       align-items: center;
       background: #090d13;
-      padding: 0.25rem 0.5rem;
+      padding: 0.2rem 0.45rem;
       border-radius: 6px;
       border: 1px solid var(--panel-border);
     }
@@ -86,7 +90,7 @@
     .control-group label {
       font-size: 0.7rem;
       color: var(--text-muted);
-      margin-right: 0.4rem;
+      margin-right: 0.35rem;
       font-weight: 600;
       text-transform: uppercase;
     }
@@ -96,8 +100,8 @@
       color: var(--text);
       border: 1px solid var(--panel-border);
       border-radius: 4px;
-      padding: 0.35rem 0.6rem;
-      font-size: 0.82rem;
+      padding: 0.3rem 0.55rem;
+      font-size: 0.8rem;
       cursor: pointer;
       outline: none;
       transition: all 0.2s;
@@ -111,84 +115,110 @@
       flex: 1;
       display: flex;
       flex-direction: column;
-      padding: 0.75rem;
-      max-width: 1600px;
+      padding: 0.5rem;
+      max-width: 100%;
       margin: 0 auto;
       width: 100%;
-      gap: 0.75rem;
+      gap: 0.5rem;
     }
 
     .dashboard {
       background: var(--panel-bg);
       border: 1px solid var(--panel-border);
       border-radius: 8px;
-      padding: 0.75rem 1.25rem;
+      padding: 0.5rem 1rem;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      min-height: 60px;
-      gap: 0.75rem;
+      min-height: 52px;
+      gap: 0.5rem;
     }
 
     .prompt-area {
       display: flex;
       flex-direction: column;
-      gap: 0.2rem;
+      gap: 0.15rem;
     }
 
     .prompt-title {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--text-muted);
       font-weight: 600;
     }
 
+    .prompt-text-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
     .prompt-text {
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       font-weight: 700;
+    }
+
+    .prompt-text.hidden-target {
+      color: var(--incorrect);
+      letter-spacing: 0.1em;
+      font-style: italic;
+    }
+
+    .peek-btn {
+      display: none;
+      background: #090d13;
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      padding: 0.2rem 0.45rem;
+      border: 1px dashed var(--panel-border);
+      border-radius: 4px;
+    }
+
+    .peek-btn:hover {
+      color: var(--accent);
+      border-color: var(--accent);
     }
 
     .score-stats {
       display: flex;
       align-items: center;
-      gap: 1.25rem;
+      gap: 1rem;
       font-size: 0.85rem;
     }
 
     .stat-val {
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 700;
       color: var(--accent);
     }
 
-    /* Note Input Pad (Reverse Quiz) */
     .note-pad-wrapper {
       background: var(--panel-bg);
       border: 1px solid var(--panel-border);
       border-radius: 8px;
-      padding: 0.5rem;
+      padding: 0.4rem;
       display: none;
       flex-direction: column;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.3rem;
     }
 
     .note-pad {
       display: grid;
       grid-template-columns: repeat(12, minmax(28px, 1fr));
-      gap: 0.35rem;
+      gap: 0.3rem;
       width: 100%;
       max-width: 850px;
     }
 
     .note-pad button {
-      padding: 0.55rem 0;
+      padding: 0.5rem 0;
       font-weight: 700;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       text-align: center;
-      border-radius: 5px;
+      border-radius: 4px;
     }
 
     /* Fretboard Viewport */
@@ -196,17 +226,52 @@
       background: #090d13;
       border: 1px solid var(--panel-border);
       border-radius: 8px;
-      overflow-x: auto;
-      overflow-y: hidden;
-      padding: 1.25rem 0.5rem;
       box-shadow: inset 0 4px 16px rgba(0, 0, 0, 0.6);
-      -webkit-overflow-scrolling: touch;
       position: relative;
+      width: 100%;
+      padding: 0.75rem 0.25rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    #neck-svg {
-      display: block;
-      touch-action: pan-x pan-y;
+    /* Portrait: Scrollable */
+    @media (orientation: portrait) {
+      .neck-outer {
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        justify-content: flex-start;
+      }
+      #neck-svg {
+        display: block;
+        height: 220px;
+      }
+    }
+
+    /* Landscape: Fill full screen width, NO horizontal scroll */
+    @media (orientation: landscape) {
+      body {
+        padding-top: env(safe-area-inset-top);
+      }
+      header {
+        padding: 0.3rem 0.8rem;
+      }
+      h1 {
+        font-size: 0.95rem;
+      }
+      .prompt-text {
+        font-size: 0.95rem;
+      }
+      .neck-outer {
+        overflow-x: hidden;
+        padding: 0.4rem 0.2rem;
+      }
+      #neck-svg {
+        width: 100% !important;
+        height: auto !important;
+        max-height: 52vh;
+      }
     }
 
     .fret-click-target {
@@ -249,10 +314,7 @@
       dominant-baseline: central;
     }
 
-    @media (max-width: 768px) {
-      header {
-        padding: 0.5rem 0.75rem;
-      }
+    @media (max-width: 768px) and (orientation: portrait) {
       .controls-grid {
         width: 100%;
         justify-content: space-between;
@@ -269,9 +331,6 @@
       .note-pad {
         grid-template-columns: repeat(6, 1fr);
       }
-      .prompt-text {
-        font-size: 1.05rem;
-      }
     }
   </style>
 </head>
@@ -283,9 +342,9 @@
       <div class="control-group">
         <label for="mode-select">Mode</label>
         <select id="mode-select">
-          <option value="explore">Explore</option>
-          <option value="target">Target Note</option>
+          <option value="target" selected>Target Note</option>
           <option value="reverse">Reverse Quiz</option>
+          <option value="explore">Explore</option>
         </select>
       </div>
 
@@ -307,7 +366,7 @@
         </select>
       </div>
 
-      <div class="control-group" id="root-group">
+      <div class="control-group" id="root-group" style="display: none;">
         <label for="root-select">Root</label>
         <select id="root-select"></select>
       </div>
@@ -319,23 +378,26 @@
   <main>
     <div class="dashboard">
       <div class="prompt-area">
-        <span class="prompt-title" id="status-title">Mode: Explore</span>
-        <span class="prompt-text" id="status-desc">Click any fret or string to play and explore</span>
+        <span class="prompt-title" id="status-title">Find Note Challenge</span>
+        <div class="prompt-text-row">
+          <span class="prompt-text" id="status-desc">Loading challenge...</span>
+          <button id="peek-btn" class="peek-btn" type="button">Peek</button>
+        </div>
       </div>
-      <div class="score-stats" id="score-box" style="display: none;">
+      <div class="score-stats" id="score-box">
         <div>Streak: <span class="stat-val" id="streak-count">0</span></div>
         <div>Accuracy: <span class="stat-val" id="accuracy-val">100%</span></div>
       </div>
     </div>
 
-    <!-- On-screen Note Pad for Reverse Quiz Mode -->
+    <!-- Note Pad for Reverse Quiz Mode -->
     <div class="note-pad-wrapper" id="note-pad-wrapper">
       <div class="note-pad" id="note-pad"></div>
     </div>
 
-    <!-- Scrollable Neck Container -->
+    <!-- Fretboard Viewport -->
     <div class="neck-outer" id="neck-outer">
-      <svg id="neck-svg" height="240"></svg>
+      <svg id="neck-svg"></svg>
     </div>
   </main>
 
@@ -346,19 +408,19 @@
     const INSTRUMENTS = {
       guitar6: {
         name: "6-String Guitar",
-        tunings: [64, 59, 55, 50, 45, 40], // E4, B3, G3, D3, A2, E2
+        tunings: [64, 59, 55, 50, 45, 40],
         stringNames: ["E", "B", "G", "D", "A", "E"],
         gauges: [1.2, 1.5, 2.0, 2.6, 3.2, 4.0]
       },
       bass4: {
         name: "4-String Bass",
-        tunings: [43, 38, 33, 28], // G2, D2, A1, E1
+        tunings: [43, 38, 33, 28],
         stringNames: ["G", "D", "A", "E"],
         gauges: [1.8, 2.6, 3.6, 4.8]
       },
       bass5: {
         name: "5-String Bass",
-        tunings: [43, 38, 33, 28, 23], // G2, D2, A1, E1, B0
+        tunings: [43, 38, 33, 28, 23],
         stringNames: ["G", "D", "A", "E", "B"],
         gauges: [1.8, 2.6, 3.6, 4.8, 5.8]
       }
@@ -377,7 +439,7 @@
       return 440 * Math.pow(2, (midi - 69) / 12);
     }
 
-    // Audio Engine with Mobile Unlock
+    // Audio Engine
     let audioCtx = null;
     function initAudio() {
       if (!audioCtx) {
@@ -417,19 +479,20 @@
         osc.start(now);
         osc.stop(now + 1.45);
       } catch (e) {
-        console.warn("Audio Context init pending user interaction", e);
+        console.warn("Audio waiting for user gesture", e);
       }
     }
 
-    // State
+    // App State - Defaults to Target Mode
     const state = {
       instrument: "guitar6",
-      mode: "explore",
+      mode: "target",
       fretRange: "all",
       rootPitchClass: 0,
       stats: { total: 0, correct: 0, streak: 0 },
       activeTarget: null,
-      markerMap: new Map()
+      markerMap: new Map(),
+      isPromptObscured: false
     };
 
     // DOM Elements
@@ -442,13 +505,14 @@
     const resetBtn = document.getElementById("reset-btn");
     const statusTitle = document.getElementById("status-title");
     const statusDesc = document.getElementById("status-desc");
+    const peekBtn = document.getElementById("peek-btn");
     const scoreBox = document.getElementById("score-box");
     const streakCount = document.getElementById("streak-count");
     const accuracyVal = document.getElementById("accuracy-val");
     const notePadWrapper = document.getElementById("note-pad-wrapper");
     const notePad = document.getElementById("note-pad");
 
-    // Touch Swipe vs Tap Detection (prevents accidental misclicks when panning)
+    // Touch Handling (pan vs tap)
     let isDragging = false;
     let touchStartX = 0;
     let touchStartY = 0;
@@ -495,18 +559,22 @@
     }
 
     function renderFretboard() {
+      const isLandscape = window.matchMedia("(orientation: landscape)").matches;
       const inst = INSTRUMENTS[state.instrument];
       const numStrings = inst.tunings.length;
       const { start: startFret, end: endFret } = getStartEndFrets();
 
-      const neckWidth = state.fretRange === "all" ? 2200 : 1200;
-      const neckHeight = 240;
-      const topPadding = 32;
-      const playableHeight = neckHeight - topPadding - 32;
+      const neckWidth = isLandscape ? 1200 : (state.fretRange === "all" ? 2200 : 1200);
+      const neckHeight = 220;
+      const topPadding = 28;
+      const playableHeight = neckHeight - topPadding - 28;
       const stringSpacing = playableHeight / (numStrings - 1);
-      const startXOffset = 64;
+      const startXOffset = 48;
 
-      const scaleLength = state.fretRange === "all" ? 2800 : (state.fretRange === "low" ? 1700 : 3400);
+      const scaleLength = state.fretRange === "all" 
+        ? (isLandscape ? 1500 : 2800) 
+        : (state.fretRange === "low" ? 1400 : 2800);
+
       const fretX = {};
       const baseFret = startFret === 0 ? 0 : startFret - 1;
       const baseOffset = scaleLength * (1 - Math.pow(2, -baseFret / 12));
@@ -518,56 +586,61 @@
 
       const boardStartX = fretX[startFret];
       const boardEndX = fretX[endFret] + 16;
-      const totalSvgWidth = Math.max(boardEndX + 30, neckWidth);
+      const totalSvgWidth = Math.max(boardEndX + 24, neckWidth);
 
-      svg.setAttribute("width", totalSvgWidth);
-      svg.setAttribute("height", neckHeight);
       svg.setAttribute("viewBox", `0 0 ${totalSvgWidth} ${neckHeight}`);
+      if (isLandscape) {
+        svg.removeAttribute("width");
+        svg.removeAttribute("height");
+      } else {
+        svg.setAttribute("width", totalSvgWidth);
+        svg.setAttribute("height", neckHeight);
+      }
+
       svg.innerHTML = "";
       state.markerMap.clear();
 
-      // 1. Neck Wood
+      // 1. Neck Body
       svg.appendChild(createSVGElement("rect", {
         x: boardStartX,
-        y: topPadding - 10,
+        y: topPadding - 8,
         width: boardEndX - boardStartX,
-        height: playableHeight + 20,
+        height: playableHeight + 16,
         fill: "var(--wood-color)",
         rx: 4
       }));
 
-      // 2. Fret Inlay Markers
+      // 2. Fret Inlays
       const centerY = topPadding + playableHeight / 2;
       for (let f = Math.max(1, startFret); f <= endFret; f++) {
-        const prevX = (f === startFret) ? (boardStartX - 30) : fretX[f - 1];
+        const prevX = (f === startFret) ? (boardStartX - 28) : fretX[f - 1];
         const midX = (prevX + fretX[f]) / 2;
 
         if (SINGLE_MARKERS.includes(f)) {
           svg.appendChild(createSVGElement("circle", {
             cx: midX,
             cy: centerY,
-            r: 5.5,
+            r: 5,
             fill: "var(--marker-color)"
           }));
         } else if (DOUBLE_MARKERS.includes(f)) {
           svg.appendChild(createSVGElement("circle", {
             cx: midX,
             cy: centerY - playableHeight * 0.22,
-            r: 5,
+            r: 4.5,
             fill: "var(--marker-color)"
           }));
           svg.appendChild(createSVGElement("circle", {
             cx: midX,
             cy: centerY + playableHeight * 0.22,
-            r: 5,
+            r: 4.5,
             fill: "var(--marker-color)"
           }));
         }
 
-        // Fret Number Label
         const numLabel = createSVGElement("text", {
           x: midX,
-          y: neckHeight - 10,
+          y: neckHeight - 8,
           class: "fret-num-text"
         });
         numLabel.textContent = f;
@@ -579,21 +652,21 @@
         const fx = fretX[f];
         if (f === 0) {
           svg.appendChild(createSVGElement("rect", {
-            x: fx - 6,
-            y: topPadding - 12,
-            width: 8,
-            height: playableHeight + 24,
+            x: fx - 5,
+            y: topPadding - 10,
+            width: 7,
+            height: playableHeight + 20,
             fill: "var(--nut-color)",
             rx: 2
           }));
         } else {
           svg.appendChild(createSVGElement("line", {
             x1: fx,
-            y1: topPadding - 10,
+            y1: topPadding - 8,
             x2: fx,
-            y2: topPadding + playableHeight + 10,
+            y2: topPadding + playableHeight + 8,
             stroke: "var(--fret-wire)",
-            "stroke-width": 2.5
+            "stroke-width": 2.2
           }));
         }
       }
@@ -606,7 +679,7 @@
 
         const openMidi = inst.tunings[s] + startFret;
         const tuneLabel = createSVGElement("text", {
-          x: 24,
+          x: 18,
           y: sy,
           class: "tuning-text"
         });
@@ -614,7 +687,7 @@
         svg.appendChild(tuneLabel);
 
         svg.appendChild(createSVGElement("line", {
-          x1: startFret === 0 ? boardStartX - 8 : boardStartX,
+          x1: startFret === 0 ? boardStartX - 6 : boardStartX,
           y1: sy,
           x2: boardEndX,
           y2: sy,
@@ -625,14 +698,14 @@
         }));
       }
 
-      // 5. Interactive Hit Boxes & Overlays
+      // 5. Interactive Hit Boxes
       for (let s = 0; s < numStrings; s++) {
         const sy = stringY[s];
         for (let f = startFret; f <= endFret; f++) {
           let cx, clickX, clickW;
 
           if (f === 0) {
-            cx = boardStartX - 22;
+            cx = boardStartX - 18;
             clickX = 0;
             clickW = boardStartX;
           } else {
@@ -650,7 +723,7 @@
           const circle = createSVGElement("circle", {
             cx: cx,
             cy: sy,
-            r: 12,
+            r: 11,
             class: "note-dot",
             fill: "var(--accent)"
           });
@@ -707,6 +780,25 @@
       }
     }
 
+    function obscureTargetPrompt() {
+      state.isPromptObscured = true;
+      statusDesc.textContent = "Find: [ Hidden - Remember the note! ]";
+      statusDesc.classList.add("hidden-target");
+      peekBtn.style.display = "inline-block";
+    }
+
+    function revealTargetPrompt() {
+      if (!state.activeTarget) return;
+      state.isPromptObscured = false;
+      statusDesc.textContent = state.activeTarget.promptText;
+      statusDesc.classList.remove("hidden-target");
+      peekBtn.style.display = "none";
+    }
+
+    peekBtn.addEventListener("click", () => {
+      revealTargetPrompt();
+    });
+
     function handleFretClick(stringIdx, fret) {
       const midi = getMidiPitch(stringIdx, fret);
       const { noteName, octave, pitchClass } = midiToPitch(midi);
@@ -735,10 +827,12 @@
         if (isCorrect) {
           highlightFret(stringIdx, fret, noteName, "var(--correct)", 800);
           statusDesc.textContent = `Correct! That is ${noteName}`;
+          statusDesc.classList.remove("hidden-target");
+          peekBtn.style.display = "none";
           setTimeout(nextTargetChallenge, 850);
         } else {
           highlightFret(stringIdx, fret, noteName, "var(--incorrect)", 850);
-          statusDesc.textContent = `Incorrect (${noteName}). Try again!`;
+          obscureTargetPrompt();
         }
       }
     }
@@ -753,9 +847,12 @@
       if (isCorrect) {
         highlightFret(target.string, target.fret, NOTE_NAMES[target.pitchClass], "var(--correct)");
         statusDesc.textContent = `Correct! It's ${NOTE_NAMES[target.pitchClass]}`;
+        statusDesc.classList.remove("hidden-target");
+        peekBtn.style.display = "none";
         setTimeout(nextReverseChallenge, 850);
       } else {
-        statusDesc.textContent = `Incorrect! You clicked ${NOTE_NAMES[clickedPitchClass]}. Try again!`;
+        highlightFret(target.string, target.fret, "?", "var(--incorrect)", 600);
+        obscureTargetPrompt();
       }
     }
 
@@ -774,6 +871,10 @@
 
     function nextTargetChallenge() {
       hideAllMarkers();
+      state.isPromptObscured = false;
+      peekBtn.style.display = "none";
+      statusDesc.classList.remove("hidden-target");
+
       const targetPitchClass = Math.floor(Math.random() * 12);
       const noteName = NOTE_NAMES[targetPitchClass];
       const inst = INSTRUMENTS[state.instrument];
@@ -781,22 +882,30 @@
       const specifyString = Math.random() > 0.5;
       const stringIdx = specifyString ? Math.floor(Math.random() * inst.tunings.length) : null;
 
+      let promptStr = "";
+      if (specifyString) {
+        const sName = inst.stringNames[stringIdx];
+        promptStr = `Find "${noteName}" on the ${sName} string (String ${stringIdx + 1})`;
+      } else {
+        promptStr = `Find any "${noteName}" across the neck`;
+      }
+
       state.activeTarget = {
         pitchClass: targetPitchClass,
-        specificString: stringIdx
+        specificString: stringIdx,
+        promptText: promptStr
       };
 
       statusTitle.textContent = "Find Note Challenge";
-      if (specifyString) {
-        const sName = inst.stringNames[stringIdx];
-        statusDesc.textContent = `Find "${noteName}" on the ${sName} string (String ${stringIdx + 1})`;
-      } else {
-        statusDesc.textContent = `Find any "${noteName}" across the neck`;
-      }
+      statusDesc.textContent = promptStr;
     }
 
     function nextReverseChallenge() {
       hideAllMarkers();
+      state.isPromptObscured = false;
+      peekBtn.style.display = "none";
+      statusDesc.classList.remove("hidden-target");
+
       const inst = INSTRUMENTS[state.instrument];
       const { start: startFret, end: endFret } = getStartEndFrets();
 
@@ -805,20 +914,25 @@
       const midi = getMidiPitch(randomString, randomFret);
       const { pitchClass } = midiToPitch(midi);
 
+      const promptStr = `What note is at String ${randomString + 1}, Fret ${randomFret}?`;
+
       state.activeTarget = {
         string: randomString,
         fret: randomFret,
-        pitchClass: pitchClass
+        pitchClass: pitchClass,
+        promptText: promptStr
       };
 
       highlightFret(randomString, randomFret, "?", "var(--accent)");
       statusTitle.textContent = "Reverse Quiz Challenge";
-      statusDesc.textContent = `What note is at String ${randomString + 1}, Fret ${randomFret}?`;
+      statusDesc.textContent = promptStr;
     }
 
     function updateMode() {
       state.mode = modeSelect.value;
       hideAllMarkers();
+      peekBtn.style.display = "none";
+      statusDesc.classList.remove("hidden-target");
 
       if (state.mode === "explore") {
         document.getElementById("root-group").style.display = "flex";
@@ -847,7 +961,13 @@
       if (state.mode === "reverse") nextReverseChallenge();
     }
 
-    // Event Listeners
+    window.addEventListener("resize", () => {
+      renderFretboard();
+      if (state.mode === "reverse" && state.activeTarget) {
+        highlightFret(state.activeTarget.string, state.activeTarget.fret, "?", "var(--accent)");
+      }
+    });
+
     modeSelect.addEventListener("change", updateMode);
     instrumentSelect.addEventListener("change", (e) => {
       state.instrument = e.target.value;
@@ -864,7 +984,7 @@
     });
     resetBtn.addEventListener("click", resetStats);
 
-    // Initial render
+    // Initial render defaulting to Target Note Challenge
     renderFretboard();
     updateMode();
   </script>
