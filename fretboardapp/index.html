@@ -149,36 +149,9 @@
       font-weight: 600;
     }
 
-    .prompt-text-row {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-
     .prompt-text {
       font-size: 1.15rem;
       font-weight: 700;
-    }
-
-    .prompt-text.hidden-target {
-      color: var(--incorrect);
-      letter-spacing: 0.1em;
-      font-style: italic;
-    }
-
-    .peek-btn {
-      display: none;
-      background: #090d13;
-      color: var(--text-muted);
-      font-size: 0.72rem;
-      padding: 0.2rem 0.45rem;
-      border: 1px dashed var(--panel-border);
-      border-radius: 4px;
-    }
-
-    .peek-btn:hover {
-      color: var(--accent);
-      border-color: var(--accent);
     }
 
     .score-stats {
@@ -379,10 +352,7 @@
     <div class="dashboard">
       <div class="prompt-area">
         <span class="prompt-title" id="status-title">Find Note Challenge</span>
-        <div class="prompt-text-row">
-          <span class="prompt-text" id="status-desc">Loading challenge...</span>
-          <button id="peek-btn" class="peek-btn" type="button">Peek</button>
-        </div>
+        <span class="prompt-text" id="status-desc">Loading challenge...</span>
       </div>
       <div class="score-stats" id="score-box">
         <div>Streak: <span class="stat-val" id="streak-count">0</span></div>
@@ -491,8 +461,7 @@
       rootPitchClass: 0,
       stats: { total: 0, correct: 0, streak: 0 },
       activeTarget: null,
-      markerMap: new Map(),
-      isPromptObscured: false
+      markerMap: new Map()
     };
 
     // DOM Elements
@@ -505,7 +474,6 @@
     const resetBtn = document.getElementById("reset-btn");
     const statusTitle = document.getElementById("status-title");
     const statusDesc = document.getElementById("status-desc");
-    const peekBtn = document.getElementById("peek-btn");
     const scoreBox = document.getElementById("score-box");
     const streakCount = document.getElementById("streak-count");
     const accuracyVal = document.getElementById("accuracy-val");
@@ -780,25 +748,6 @@
       }
     }
 
-    function obscureTargetPrompt() {
-      state.isPromptObscured = true;
-      statusDesc.textContent = "Find: [ Hidden - Remember the note! ]";
-      statusDesc.classList.add("hidden-target");
-      peekBtn.style.display = "inline-block";
-    }
-
-    function revealTargetPrompt() {
-      if (!state.activeTarget) return;
-      state.isPromptObscured = false;
-      statusDesc.textContent = state.activeTarget.promptText;
-      statusDesc.classList.remove("hidden-target");
-      peekBtn.style.display = "none";
-    }
-
-    peekBtn.addEventListener("click", () => {
-      revealTargetPrompt();
-    });
-
     function handleFretClick(stringIdx, fret) {
       const midi = getMidiPitch(stringIdx, fret);
       const { noteName, octave, pitchClass } = midiToPitch(midi);
@@ -826,13 +775,10 @@
         recordScore(isCorrect);
         if (isCorrect) {
           highlightFret(stringIdx, fret, noteName, "var(--correct)", 800);
-          statusDesc.textContent = `Correct! That is ${noteName}`;
-          statusDesc.classList.remove("hidden-target");
-          peekBtn.style.display = "none";
           setTimeout(nextTargetChallenge, 850);
         } else {
+          // Show red marker with the tapped note name; prompt remains untouched
           highlightFret(stringIdx, fret, noteName, "var(--incorrect)", 850);
-          obscureTargetPrompt();
         }
       }
     }
@@ -846,13 +792,9 @@
       const target = state.activeTarget;
       if (isCorrect) {
         highlightFret(target.string, target.fret, NOTE_NAMES[target.pitchClass], "var(--correct)");
-        statusDesc.textContent = `Correct! It's ${NOTE_NAMES[target.pitchClass]}`;
-        statusDesc.classList.remove("hidden-target");
-        peekBtn.style.display = "none";
         setTimeout(nextReverseChallenge, 850);
       } else {
-        highlightFret(target.string, target.fret, "?", "var(--incorrect)", 600);
-        obscureTargetPrompt();
+        highlightFret(target.string, target.fret, "?", "var(--incorrect)", 650);
       }
     }
 
@@ -871,9 +813,6 @@
 
     function nextTargetChallenge() {
       hideAllMarkers();
-      state.isPromptObscured = false;
-      peekBtn.style.display = "none";
-      statusDesc.classList.remove("hidden-target");
 
       const targetPitchClass = Math.floor(Math.random() * 12);
       const noteName = NOTE_NAMES[targetPitchClass];
@@ -902,9 +841,6 @@
 
     function nextReverseChallenge() {
       hideAllMarkers();
-      state.isPromptObscured = false;
-      peekBtn.style.display = "none";
-      statusDesc.classList.remove("hidden-target");
 
       const inst = INSTRUMENTS[state.instrument];
       const { start: startFret, end: endFret } = getStartEndFrets();
@@ -931,8 +867,6 @@
     function updateMode() {
       state.mode = modeSelect.value;
       hideAllMarkers();
-      peekBtn.style.display = "none";
-      statusDesc.classList.remove("hidden-target");
 
       if (state.mode === "explore") {
         document.getElementById("root-group").style.display = "flex";
@@ -984,7 +918,7 @@
     });
     resetBtn.addEventListener("click", resetStats);
 
-    // Initial render defaulting to Target Note Challenge
+    // Initial render
     renderFretboard();
     updateMode();
   </script>
